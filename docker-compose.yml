@@ -1,0 +1,158 @@
+version: '3'
+
+services:
+
+# nginx
+  nginx:
+    image: 'docker.io/nginx:1.17'
+    restart: always
+    ports: 
+      - '80:80'
+    volumes:
+      - './data/apt-mirror/mirror:/usr/share/nginx/html:ro'
+      - './config/nginx:/etc/nginx/conf.d'
+    depends_on:
+      - gitlab
+      - harbor-nginx
+      - minio
+#      - apt-mirror
+
+# apt-mirror
+#  apt-mirror:
+#    image: 'docker.io/yannhowe/aptmirror-ubuntu1804'
+#    volumes:
+#      - './data/apt-mirror:/mnt/mirror/debian'
+
+# gitlab
+  gitlab:
+    image: 'docker.io/gitlab/gitlab-ce:12.6.6-ce.0'
+    restart: always
+    privileged: true
+    hostname: 'gitlab.local.org'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |  
+        external_url 'http://gitlab.local.org'
+        letsencrypt['enable'] = false
+        #'SSL_CERT_DIR' => '/opt/gitlab/embedded/ssl/certs/'
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '9080:80'
+      - '9443:443'
+      - '9022:22'
+    volumes:
+      - 'gitlab-config:/etc/gitlab'
+      - 'gitlab-logs:/var/log/gitlab'
+      - 'gitlab-data:/var/opt/gitlab'
+
+# Harbor
+  registry:
+    image: docker.io/bitnami/harbor-registry:1
+    volumes:
+      - ./data/harbor/registry_data:/storage
+      - ./config/harbor/config/registry/:/etc/registry/:ro
+  registryctl:
+    image: docker.io/bitnami/harbor-registryctl:1
+    environment:
+      - CORE_SECRET=CHANGEME
+      - JOBSERVICE_SECRET=CHANGEME
+    volumes:
+      - ./data/harbor/registry_data:/storage
+      - ./config/harbor/config/registry/:/etc/registry/:ro
+      - ./config/harbor/config/registryctl/config.yml:/etc/registryctl/config.yml:ro
+  postgresql:
+    image: docker.io/bitnami/postgresql:11
+    container_name: harbor-db
+    environment:
+      - POSTGRESQL_PASSWORD=bitnami
+      - POSTGRESQL_DATABASE=registry
+    volumes:
+      - ./data/harbor/postgresql_data:/bitnami/postgresql
+  core:
+    image: docker.io/bitnami/harbor-core:1
+    container_name: harbor-core
+    depends_on:
+      - registry
+    environment:
+      - CORE_KEY=change-this-key
+      - _REDIS_URL=redis:6379,100,
+      - SYNC_REGISTRY=false
+      - CHART_CACHE_DRIVER=redis
+      - _REDIS_URL_REG=redis://redis:6379/1
+      - PORT=8080
+      - LOG_LEVEL=info
+      - EXT_ENDPOINT=http://reg.mydomain.com
+      - DATABASE_TYPE=postgresql
+      - POSTGRESQL_HOST=postgresql
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DATABASE=registry
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=bitnami
+      - POSTGRESQL_SSLMODE=disable
+      - REGISTRY_URL=http://registry:5000
+      - TOKEN_SERVICE_URL=http://core:8080/service/token
+      - HARBOR_ADMIN_PASSWORD=bitnami
+      - CORE_SECRET=CHANGEME
+      - JOBSERVICE_SECRET=CHANGEME
+      - ADMIRAL_URL=
+      - WITH_NOTARY=True
+      - WITH_CLAIR=True
+      - WITH_CHARTMUSEUM=True
+      - CORE_URL=http://core:8080
+      - JOBSERVICE_URL=http://jobservice:8080
+      - REGISTRY_STORAGE_PROVIDER_NAME=filesystem
+      - READ_ONLY=false
+      - RELOAD_KEY=
+    volumes:
+      - ./data/harbor/core_data:/data
+      - ./config/harbor/config/core/app.conf:/etc/core/app.conf:ro
+      - ./config/harbor/config/core/private_key.pem:/etc/core/private_key.pem:ro
+  portal:
+    image: docker.io/bitnami/harbor-portal:1
+    container_name: harbor-portal
+    depends_on:
+      - core
+  jobservice:
+    image: docker.io/bitnami/harbor-jobservice:1
+    container_name: harbor-jobservice
+    depends_on:
+      - redis
+      - core
+    environment:
+      - CORE_SECRET=CHANGEME
+      - JOBSERVICE_SECRET=CHANGEME
+      - CORE_URL=http://core:8080
+    volumes:
+      - ./data/harbor/jobservice_data:/var/log/jobs
+      - ./config/harbor/config/jobservice/config.yml:/etc/jobservice/config.yml:ro
+  redis:
+    image: docker.io/bitnami/redis:5.0
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  harbor-nginx:
+    image: docker.io/bitnami/nginx:1.16
+    container_name: nginx
+    volumes:
+      - ./config/harbor/config/proxy/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
+    ports:
+      - '7080:8080'
+    depends_on:
+      - postgresql
+      - registry
+      - core
+      - portal
+
+# MinIO
+  minio:
+    image: 'docker.io/bitnami/minio:2020'
+    volumes:
+      - ./data/minio/data:/data
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: bitnami
+      MINIO_SECRET_KEY: bitnami
+
+volumes:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:
