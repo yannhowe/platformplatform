@@ -11,6 +11,7 @@ services:
     volumes:
       - './data/apt-mirror/mirror:/usr/share/nginx/html:ro'
       - './config/nginx:/etc/nginx/conf.d'
+    command: ["./wait-for-it.sh", "harbor-nginx:8080", "nginx", "-g", "daemon off;"]
     depends_on:
       - gitlab
       - harbor-nginx
