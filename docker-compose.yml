@@ -7,11 +7,12 @@ services:
     image: 'docker.io/nginx:1.17'
     restart: always
     ports: 
-      - '80:80'
+      - '1080:80'
     volumes:
       - './data/apt-mirror/mirror:/usr/share/nginx/html:ro'
       - './config/nginx:/etc/nginx/conf.d'
-    command: ["./wait-for-it.sh", "harbor-nginx:8080", "nginx", "-g", "daemon off;"]
+      - './scripts/wait-for-it.sh:/opt/scripts/wait-for-it.sh:ro'
+    command: ["/opt/scripts/wait-for-it.sh", "harbor-nginx:8080", "nginx", "-g", "daemon off;"]
     depends_on:
       - gitlab
       - harbor-nginx
