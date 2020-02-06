@@ -1,0 +1,12 @@
+gitlab/gitlab-ce:12.6.6-ce.0
+bitnami/harbor-registry:1
+bitnami/harbor-registryctl:1
+bitnami/postgresql:11
+bitnami/harbor-core:1
+bitnami/harbor-portal:1
+bitnami/harbor-jobservice:1
+bitnami/redis:5.0
+bitnami/nginx:1.16
+yannhowe/aptmirror-ubuntu1804
+nginx:1.17
+bitnami/minio:2020
