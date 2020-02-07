@@ -15,7 +15,6 @@ services:
 #    command: ["/opt/scripts/wait-for-it.sh", "harbor-nginx:8080", "nginx", "-g", "daemon off;"]
     depends_on:
       - gitlab
-      - minio
 #      - apt-mirror
 
 # apt-mirror
@@ -45,18 +44,10 @@ services:
       - 'gitlab-logs:/var/log/gitlab'
       - 'gitlab-data:/var/opt/gitlab'
 
-# MinIO
-  minio:
-    image: 'docker.io/bitnami/minio:2020'
-    volumes:
-      - ./data/minio/data:/data
-    ports:
-      - "9000:9000"
-    environment:
-      MINIO_ACCESS_KEY: bitnami
-      MINIO_SECRET_KEY: bitnami
-
 volumes:
   gitlab-config:
+    driver: local
   gitlab-logs:
+    driver: local
   gitlab-data:
+    driver: local
