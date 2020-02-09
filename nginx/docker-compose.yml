@@ -17,5 +17,5 @@ services:
     - backend
 
 networks:
-  frontend:
   backend:
+    driver: bridge

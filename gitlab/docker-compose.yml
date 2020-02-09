@@ -8,7 +8,7 @@ services:
     privileged: true
     hostname: 'gitlab.local.org'
     networks:
-    - frontend
+    - nginx_backend
     environment:
       GITLAB_OMNIBUS_CONFIG: |  
         external_url 'http://gitlab.local.org'
@@ -23,6 +23,8 @@ services:
       - 'gitlab-config:/etc/gitlab'
       - 'gitlab-logs:/var/log/gitlab'
       - 'gitlab-data:/var/opt/gitlab'
+    networks:
+    - nginx_backend
 
 volumes:
   gitlab-config:
@@ -35,4 +37,5 @@ volumes:
 
 
 networks:
-  frontend:
+  nginx_backend:
+    driver: bridge
