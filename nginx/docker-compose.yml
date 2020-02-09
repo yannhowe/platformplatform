@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+# nginx
+  nginx:
+    image: 'docker.io/nginx:1.17'
+    restart: always
+    ports: 
+      - '80:80'
+    volumes:
+      - './data/apt-mirror/mirror:/usr/share/nginx/html:ro'
+      - './nginx:/etc/nginx/conf.d:ro'
+      - './scripts/wait-for-it.sh:/opt/scripts/wait-for-it.sh:ro'
+    networks:
+    - frontend
+    - backend
+
+networks:
+  frontend:
+  backend:

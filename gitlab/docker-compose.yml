@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  gitlab:
+    image: 'docker.io/gitlab/gitlab-ce:12.6.6-ce.0'
+    restart: always
+    privileged: true
+    hostname: 'gitlab.local.org'
+    networks:
+    - frontend
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |  
+        external_url 'http://gitlab.local.org'
+        letsencrypt['enable'] = false
+        #'SSL_CERT_DIR' => '/opt/gitlab/embedded/ssl/certs/'
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '9080:80'
+      - '9443:443'
+      - '9022:22'
+    volumes:
+      - 'gitlab-config:/etc/gitlab'
+      - 'gitlab-logs:/var/log/gitlab'
+      - 'gitlab-data:/var/opt/gitlab'
+
+volumes:
+  gitlab-config:
+    driver: local
+  gitlab-logs:
+    driver: local
+  gitlab-data:
+    driver: local
+
+
+
+networks:
+  frontend:
