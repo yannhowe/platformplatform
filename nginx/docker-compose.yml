@@ -13,7 +13,6 @@ services:
       - './nginx:/etc/nginx/conf.d:ro'
       - './scripts/wait-for-it.sh:/opt/scripts/wait-for-it.sh:ro'
     networks:
-    - frontend
     - backend
 
 networks:
