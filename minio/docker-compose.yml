@@ -4,11 +4,17 @@ services:
 # MinIO
   minio:
     image: 'minio/minio'
-    volumes:
-      - ./data:/data
     ports:
       - "9000:9000"
     environment:
       MINIO_ACCESS_KEY: testingtestin123
       MINIO_SECRET_KEY: testingtestin123
     command: server /data
+    volumes:
+      - ./data:/data
+    networks:
+    - nginx_backend
+
+networks:
+  nginx_backend:
+    driver: bridge

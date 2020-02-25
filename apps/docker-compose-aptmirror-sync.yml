@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-
-# apt-mirror
-  apt-mirror:
-    image: 'docker.io/yannhowe/aptmirror-ubuntu1804'
-    volumes:
-      - './data/apt-mirror:/mnt/mirror/debian'

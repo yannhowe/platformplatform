@@ -1,0 +1,12 @@
+deb [trusted=yes] http://127.0.0.1:8088/ bionic main restricted
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic main restricted
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic-updates main restricted
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic universe
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic-updates universe
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic multiverse
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic-updates multiverse
+deb [trusted=yes] http://127.0.0.1:8088/us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb [trusted=yes] http://127.0.0.1:8088/security.ubuntu.com/ubuntu/ bionic-security main restricted
+deb [trusted=yes] http://127.0.0.1:8088/security.ubuntu.com/ubuntu/ bionic-security universe
+deb [trusted=yes] http://127.0.0.1:8088/security.ubuntu.com/ubuntu/ bionic-security multiverse
+deb [arch=amd64, trusted=yes] http://127.0.0.1:8088/download.docker.com/linux/ubuntu bionic stable 
