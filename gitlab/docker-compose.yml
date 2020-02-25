@@ -1,41 +1,39 @@
-version: '3'
+version: '3.7'
 
 services:
 
   gitlab:
-    image: 'docker.io/gitlab/gitlab-ce:12.6.6-ce.0'
+    image: 'docker.io/gitlab/gitlab-ce:12.0.0-ce.0'
     restart: always
     privileged: true
-    hostname: 'gitlab.local.org'
-    networks:
-    - nginx_backend
+    hostname: 'gitlab.platform.net'
     environment:
       GITLAB_OMNIBUS_CONFIG: |  
-        external_url 'http://gitlab.local.org'
+        external_url 'http://gitlab.platform.net'
         letsencrypt['enable'] = false
+        registry_external_url 'http://gitlab.platform.net:5050'        
+        registry['enable'] = true
+        unicorn['socket'] = '/opt/gitlab/var/unicorn/gitlab.socket'
         #'SSL_CERT_DIR' => '/opt/gitlab/embedded/ssl/certs/'
         # Add any other gitlab.rb configuration here, each on its own line
     ports:
-      - '9080:80'
-      - '9443:443'
-      - '9022:22'
+      - '8080:80'
+      - '8443:443'
+      - '8022:22'
+      - '5050:5050'
     volumes:
       - 'gitlab-config:/etc/gitlab'
       - 'gitlab-logs:/var/log/gitlab'
       - 'gitlab-data:/var/opt/gitlab'
-    networks:
-    - nginx_backend
+      
+  gitlab-runner-1:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-1
+    hostname: gitlab-runner-1
+    extra_hosts:
+      - "gitlab.platform.net:192.168.88.129"
 
 volumes:
   gitlab-config:
-    driver: local
   gitlab-logs:
-    driver: local
   gitlab-data:
-    driver: local
-
-
-
-networks:
-  nginx_backend:
-    driver: bridge
