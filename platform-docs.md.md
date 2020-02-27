@@ -41,6 +41,7 @@ export velero_version=1.2.0
 
 echo "Installing 'kubectl' v${kubectl_version}" \
 &&   sudo wget -cO /usr/local/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
+&&   chmod 0755 /usr/local/bin/kubectl \
 &&   kubectl version --client \
 && echo "Installing 'docker-compose' v${docker_compose_version}" \
 &&   sudo wget -cO /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m) \
