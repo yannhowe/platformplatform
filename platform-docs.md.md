@@ -40,25 +40,26 @@ export helm_version=3.1.1
 export velero_version=1.2.0
 
 echo "Installing 'kubectl' v${kubectl_version}" \
-&&   curl -sLo /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
-&&   chmod 0755 /usr/bin/kubectl \
-&&   /usr/bin/kubectl version --client \
+&&   sudo wget -cO /usr/local/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
+&&   kubectl version --client \
 && echo "Installing 'docker-compose' v${docker_compose_version}" \
-&&   curl -L https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose \
-&&   chmod +x /usr/local/bin/docker-compose \
-&&   /usr/local/bin/docker-compose --version \
+&&   sudo wget -cO /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m) \
+&&   sudo chmod 0755 /usr/local/bin/docker-compose \
+&&   docker-compose --version \
 && echo "Installing 'helm' v${helm_version}" \
-&&   wget https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
+&&   wget -c https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
 &&   tar -zxvf helm-v${helm_version}-linux-amd64.tar.gz \
 &&   chmod 0755 ./linux-amd64/helm \
-&&   mv ./linux-amd64/helm /usr/bin/helm \
-&&   /usr/bin/helm \
+&&   sudo mv ./linux-amd64/helm /usr/local/bin/helm \
+&&   rm -rf helm-v${helm_version}-linux-amd64.tar.gz ./linux-amd64/ \
+&&   helm \
 && echo "Installing 'velero' v${velero_version}" \
-&&   wget https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
+&&   wget -c https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
 &&   tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
 &&   chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
-&&   mv ./velero-v${velero_version}-linux-amd64/velero /usr/bin/velero \
-&&   /usr/bin/velero
+&&   sudo mv ./velero-v${velero_version}-linux-amd64/velero /usr/local/bin/velero \
+&&   rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
+&&   velero
 
 # Everything working?
 docker-compose
