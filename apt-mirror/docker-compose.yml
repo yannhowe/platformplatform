@@ -4,6 +4,16 @@ services:
 
 # apt-mirror
   apt-mirror:
+    image: 'docker.io/nginx:1.17'
+    restart: always
+    ports: 
+      - '1080:80'
+    volumes:
+      - './data/mirror/:/usr/share/nginx/html:ro'
+      - './config/nginx:/etc/nginx/conf.d'
+
+# apt-mirror-sync
+  apt-mirror-sync:
     image: 'docker.io/yannhowe/aptmirror-ubuntu1804'
     volumes:
-      - './data/apt-mirror:/mnt/mirror/debian'
+      - './data/:/mnt/mirror/debian'
