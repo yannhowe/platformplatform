@@ -34,7 +34,7 @@ curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 
 # Add user to docker group so you don't need to sudo 
-sudo usermod -aG docker your-user
+sudo usermod -aG docker $USER
 # exit shell for changes to take effecr
 ```
 
