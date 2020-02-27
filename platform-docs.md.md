@@ -39,7 +39,9 @@ export pks_version=1.6.1
 export helm_version=3.1.1
 export velero_version=1.2.0
 
-echo "Installing 'kubectl' v${kubectl_version}" \
+echo "Installing 'pks' v${pks_version}" \
+&& sudo wget -cO /usr/local/bin/pks https://github.com/yannhowe/docker-pks-cli/raw/master/pks_cli/pks-linux-amd64-1.6.1 \
+&& echo "Installing 'kubectl' v${kubectl_version}" \
 &&   sudo wget -cO /usr/local/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
 &&   chmod 0755 /usr/local/bin/kubectl \
 &&   kubectl version --client \
