@@ -96,19 +96,21 @@ sudo apt update
 
 # Configure nameservers & hostsfile
 ```
-echo "\
-      nameservers: \
-        addresses: [10.2.32.1, 1.1.1.1, 8.8.8.8] \
-" >> /etc/netplan/01-netcfg.yaml
-cat /etc/netplan/01-netcfg.yaml
+sudo tee -a /etc/netplan/01-netcfg.yaml > /dev/null <<EOT
+nameservers:
+    addresses: [10.2.32.1, 1.1.1.1, 8.8.8.8]
+EOT
 sudo netplan apply
 
-echo "127.0.0.1      platform.net" >> /etc/hosts
-echo "127.0.0.1      registry.platform.net" >> /etc/hosts
-echo "127.0.0.1      minio.platform.net" >> /etc/hosts
-echo "127.0.0.1      gitlab.platform.net" >> /etc/hosts
-echo "127.0.0.1      harbor.platform.net" >> /etc/hosts
-echo "127.0.0.1      apt-mirror.platform.net" >> /etc/hosts
+
+sudo tee -a /etc/hosts > /dev/null <<EOT
+127.0.0.1      platform.net
+127.0.0.1      registry.platform.net
+127.0.0.1      minio.platform.net
+127.0.0.1      gitlab.platform.net
+127.0.0.1      harbor.platform.net
+127.0.0.1      apt-mirror.platform.net
+EOT
 ```
 
 ## Run Gitlab
