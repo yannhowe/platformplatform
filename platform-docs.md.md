@@ -28,11 +28,15 @@ alias kubectl='microk8s.kubectl'
 microk8s.kubectl config view --raw >> ~/.kube/config
 ```
 
-## Install Docker-CE & CLIs
+## Install Docker-CE
 ```
 curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
+sudo usermod -aG docker your-user
+```
 
+## Install CLIs
+```
 export kubectl_version=1.15.5
 export docker_compose_version=1.25.4
 export pks_version=1.6.1
