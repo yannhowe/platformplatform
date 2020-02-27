@@ -32,7 +32,10 @@ microk8s.kubectl config view --raw >> ~/.kube/config
 ```
 curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
+
+# Add user to docker group so you don't need to sudo 
 sudo usermod -aG docker your-user
+# exit shell for changes to take effecr
 ```
 
 ## Install CLIs
