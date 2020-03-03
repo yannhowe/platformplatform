@@ -9,11 +9,11 @@ services:
     ports: 
       - '1080:80'
     volumes:
-      - './data/mirror/:/usr/share/nginx/html:ro'
-      - './config/nginx:/etc/nginx/conf.d'
+      - '/home/platypus/Code/platformplatform/apt-mirror/data/mirror/:/usr/share/nginx/html:ro'
+      - '/home/platypus/Code/platformplatform/apt-mirror/config/nginx:/etc/nginx/conf.d'
 
 # apt-mirror-sync
   apt-mirror-sync:
     image: 'docker.io/yannhowe/aptmirror-ubuntu1804'
     volumes:
-      - './data/:/mnt/mirror/debian'
+      - '/home/platypus/Code/platformplatform/apt-mirror/data/:/mnt/mirror/debian'

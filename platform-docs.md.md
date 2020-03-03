@@ -4,6 +4,7 @@ Download and install ubuntu 18.04 in workstation then run the following while co
 
 ## Set up local Apt Mirror (Optional for offline use)
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo apt install -y -qq git
 git clone https://github.com/yannhowe/platformplatform.git
 
@@ -14,6 +15,7 @@ docker-compose -f platformplatform/apt-mirror/docker-compose.yml up -d
 
 ## Install microk8s
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo apt -y update && sudo apt -y upgrade
 sudo snap install microk8s --classic --channel=1.17/stable
 sudo usermod -a -G microk8s $USER
@@ -30,6 +32,7 @@ microk8s.kubectl config view --raw >> ~/.kube/config
 
 ## Install Docker-CE
 ```
+sudo echo # This prevents sudo from asking you for a password later
 curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 
@@ -81,6 +84,7 @@ velero version
 
 ## Change to local APT repo
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak.`date +%Y-%m-%dT%H:%M:%S%z`
 
 sudo tee -a /etc/apt/sources.list > /dev/null <<EOT
@@ -103,6 +107,7 @@ sudo apt update
 
 # Configure nameservers & hostsfile
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo tee -a /etc/netplan/01-netcfg.yaml > /dev/null <<EOT
 nameservers:
     addresses: [10.2.32.1, 1.1.1.1, 8.8.8.8]
