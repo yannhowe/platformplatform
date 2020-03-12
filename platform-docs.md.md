@@ -53,7 +53,7 @@ echo "Installing 'pks' v${pks_version}" \
 && sudo wget -cO /usr/local/bin/pks https://github.com/yannhowe/docker-pks-cli/raw/master/pks_cli/pks-linux-amd64-1.6.1 \
 && echo "Installing 'kubectl' v${kubectl_version}" \
 &&   sudo wget -cO /usr/local/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
-&&   chmod 0755 /usr/local/bin/kubectl \
+&&   sudo chmod 0755 /usr/local/bin/kubectl \
 &&   kubectl version --client \
 && echo "Installing 'docker-compose' v${docker_compose_version}" \
 &&   sudo wget -cO /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m) \
@@ -62,14 +62,14 @@ echo "Installing 'pks' v${pks_version}" \
 && echo "Installing 'helm' v${helm_version}" \
 &&   wget -c https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
 &&   tar -zxvf helm-v${helm_version}-linux-amd64.tar.gz \
-&&   chmod 0755 ./linux-amd64/helm \
+&&   sudo chmod 0755 ./linux-amd64/helm \
 &&   sudo mv ./linux-amd64/helm /usr/local/bin/helm \
 &&   rm -rf helm-v${helm_version}-linux-amd64.tar.gz ./linux-amd64/ \
 &&   helm \
 && echo "Installing 'velero' v${velero_version}" \
 &&   wget -c https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
 &&   tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
-&&   chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
+&&   sudo chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
 &&   sudo mv ./velero-v${velero_version}-linux-amd64/velero /usr/local/bin/velero \
 &&   rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
 &&   velero
