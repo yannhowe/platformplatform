@@ -4,6 +4,7 @@ Download and install ubuntu 18.04 in workstation then run the following while co
 
 ## Set up local Apt Mirror (Optional for offline use)
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo apt install -y -qq git
 git clone https://github.com/yannhowe/platformplatform.git
 
@@ -14,6 +15,7 @@ docker-compose -f platformplatform/apt-mirror/docker-compose.yml up -d
 
 ## Install microk8s
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo apt -y update && sudo apt -y upgrade
 sudo snap install microk8s --classic --channel=1.17/stable
 sudo usermod -a -G microk8s $USER
@@ -28,11 +30,19 @@ alias kubectl='microk8s.kubectl'
 microk8s.kubectl config view --raw >> ~/.kube/config
 ```
 
-## Install Docker-CE & CLIs
+## Install Docker-CE
 ```
+sudo echo # This prevents sudo from asking you for a password later
 curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 
+# Add user to docker group so you don't need to sudo 
+sudo usermod -aG docker $USER
+# exit shell for changes to take effecr
+```
+
+## Install CLIs
+```
 export kubectl_version=1.15.5
 export docker_compose_version=1.25.4
 export pks_version=1.6.1
@@ -43,7 +53,7 @@ echo "Installing 'pks' v${pks_version}" \
 && sudo wget -cO /usr/local/bin/pks https://github.com/yannhowe/docker-pks-cli/raw/master/pks_cli/pks-linux-amd64-1.6.1 \
 && echo "Installing 'kubectl' v${kubectl_version}" \
 &&   sudo wget -cO /usr/local/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
-&&   chmod 0755 /usr/local/bin/kubectl \
+&&   sudo chmod 0755 /usr/local/bin/kubectl \
 &&   kubectl version --client \
 && echo "Installing 'docker-compose' v${docker_compose_version}" \
 &&   sudo wget -cO /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m) \
@@ -52,14 +62,14 @@ echo "Installing 'pks' v${pks_version}" \
 && echo "Installing 'helm' v${helm_version}" \
 &&   wget -c https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
 &&   tar -zxvf helm-v${helm_version}-linux-amd64.tar.gz \
-&&   chmod 0755 ./linux-amd64/helm \
+&&   sudo chmod 0755 ./linux-amd64/helm \
 &&   sudo mv ./linux-amd64/helm /usr/local/bin/helm \
 &&   rm -rf helm-v${helm_version}-linux-amd64.tar.gz ./linux-amd64/ \
 &&   helm \
 && echo "Installing 'velero' v${velero_version}" \
 &&   wget -c https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
 &&   tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
-&&   chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
+&&   sudo chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
 &&   sudo mv ./velero-v${velero_version}-linux-amd64/velero /usr/local/bin/velero \
 &&   rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
 &&   velero
@@ -74,6 +84,7 @@ velero version
 
 ## Change to local APT repo
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak.`date +%Y-%m-%dT%H:%M:%S%z`
 
 sudo tee -a /etc/apt/sources.list > /dev/null <<EOT
@@ -96,6 +107,7 @@ sudo apt update
 
 # Configure nameservers & hostsfile
 ```
+sudo echo # This prevents sudo from asking you for a password later
 sudo tee -a /etc/netplan/01-netcfg.yaml > /dev/null <<EOT
 nameservers:
     addresses: [10.2.32.1, 1.1.1.1, 8.8.8.8]
