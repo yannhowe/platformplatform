@@ -129,3 +129,13 @@ EOT
 ```
 docker-compose -f platformplatform/gitlab/docker-compose.yml up -d
 ```
+
+## Install Packer on laptop with workstation for building images
+```
+export VER="1.5.5"
+sudo wget https://releases.hashicorp.com/packer/${VER}/packer_${VER}_linux_amd64.zip
+sudo unzip packer_${VER}_linux_amd64.zip
+sudo mv packer /usr/local/bin
+sudo chmod +x /usr/local/bin/packer
+packer
+```
