@@ -60,15 +60,15 @@ echo "Installing 'pks' v${pks_version}" \
 &&   sudo chmod 0755 /usr/local/bin/docker-compose \
 &&   docker-compose --version \
 && echo "Installing 'helm' v${helm_version}" \
-&&   wget -c https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
-&&   tar -zxvf helm-v${helm_version}-linux-amd64.tar.gz \
+&&   sudo wget -c https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
+&&   sudo tar -zxvf helm-v${helm_version}-linux-amd64.tar.gz \
 &&   sudo chmod 0755 ./linux-amd64/helm \
 &&   sudo mv ./linux-amd64/helm /usr/local/bin/helm \
-&&   rm -rf helm-v${helm_version}-linux-amd64.tar.gz ./linux-amd64/ \
+&&   sudo rm -rf helm-v${helm_version}-linux-amd64.tar.gz ./linux-amd64/ \
 &&   helm \
 && echo "Installing 'velero' v${velero_version}" \
-&&   wget -c https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
-&&   tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
+&&   sudo wget -c https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
+&&   sudo tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
 &&   sudo chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
 &&   sudo mv ./velero-v${velero_version}-linux-amd64/velero /usr/local/bin/velero \
 &&   rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
