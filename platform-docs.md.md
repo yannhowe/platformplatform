@@ -71,7 +71,7 @@ echo "Installing 'pks' v${pks_version}" \
 &&   sudo tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
 &&   sudo chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
 &&   sudo mv ./velero-v${velero_version}-linux-amd64/velero /usr/local/bin/velero \
-&&   rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
+&&   sudo rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
 &&   velero
 
 # Everything working?
