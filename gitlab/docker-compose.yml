@@ -7,6 +7,8 @@ services:
     restart: always
     privileged: true
     hostname: 'gitlab.platform.net'
+    env_file:
+      - .env
     environment:
       GITLAB_OMNIBUS_CONFIG: |  
         external_url 'http://gitlab.platform.net'
@@ -30,8 +32,28 @@ services:
     image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner-1
     hostname: gitlab-runner-1
-#    extra_hosts:
-#      - "gitlab.platform.net:192.168.1.36"
+    env_file:
+      - .env
+    extra_hosts:
+      - "gitlab.platform.net:192.168.88.130"
+      
+  gitlab-runner-2:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-2
+    hostname: gitlab-runner-2
+    env_file:
+      - .env
+    extra_hosts:
+      - "gitlab.platform.net:192.168.88.130"
+      
+  gitlab-runner-3:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner-3
+    hostname: gitlab-runner-3
+    env_file:
+      - .env
+    extra_hosts:
+      - "gitlab.platform.net:192.168.88.130"
 
 volumes:
   gitlab-config:
