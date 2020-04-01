@@ -30,8 +30,8 @@ services:
     image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner-1
     hostname: gitlab-runner-1
-    extra_hosts:
-      - "gitlab.platform.net:192.168.88.129"
+#    extra_hosts:
+#      - "gitlab.platform.net:192.168.1.36"
 
 volumes:
   gitlab-config:

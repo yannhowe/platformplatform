@@ -3,18 +3,12 @@ version: '3'
 services:
 # MinIO
   minio:
-    image: 'minio/minio'
+    image: "minio/minio"
     ports:
       - "9000:9000"
     environment:
-      MINIO_ACCESS_KEY: testingtestin123
-      MINIO_SECRET_KEY: testingtestin123
+      MINIO_ACCESS_KEY: testingtesting123
+      MINIO_SECRET_KEY: testingtesting123
     command: server /data
     volumes:
       - ./data:/data
-    networks:
-    - nginx_backend
-
-networks:
-  nginx_backend:
-    driver: bridge

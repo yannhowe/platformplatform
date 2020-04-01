@@ -1,2 +1,4 @@
+chopchop/data/*
+minio/data/*
 apt-mirror/data/*
 .env

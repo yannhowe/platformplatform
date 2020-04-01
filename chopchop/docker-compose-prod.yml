@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  minio:
+    image: 'bitnami/minio:latest'
+    ports:
+      - '9090:9000'
+    env_file:
+      - .env
+    volumes:
+      - /home/platypus/Code/platformplatform/chopchop/data:/data
+
+  splitter:
+    image: goal86sg/chopchop:latest 
+    entrypoint: ["/app/wait-for-it.sh" , "minio:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
+    restart: always
+    environment: 
+      - TX=TRUE
+    env_file:
+      - .env
+    volumes: 
+      - mc_config:/root/.mc
+      - /home/platypus/Code/platformplatform/chopchop/tmp:/app/tmp
+
+volumes: 
+  mc_config:
+#  chopchop:
