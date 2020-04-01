@@ -17,7 +17,7 @@ services:
         #'SSL_CERT_DIR' => '/opt/gitlab/embedded/ssl/certs/'
         # Add any other gitlab.rb configuration here, each on its own line
     ports:
-      - '8080:80'
+      - '8088:80'
       - '8443:443'
       - '8022:22'
       - '5050:5050'
