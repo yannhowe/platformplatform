@@ -30,30 +30,39 @@ services:
       
   gitlab-runner-1:
     image: gitlab/gitlab-runner:latest
+    restart: always
     container_name: gitlab-runner-1
     hostname: gitlab-runner-1
     env_file:
       - .env
     extra_hosts:
       - "gitlab.platform.net:192.168.88.130"
-      
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
   gitlab-runner-2:
     image: gitlab/gitlab-runner:latest
+    restart: always
     container_name: gitlab-runner-2
     hostname: gitlab-runner-2
     env_file:
       - .env
     extra_hosts:
       - "gitlab.platform.net:192.168.88.130"
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
       
   gitlab-runner-3:
     image: gitlab/gitlab-runner:latest
+    restart: always
     container_name: gitlab-runner-3
     hostname: gitlab-runner-3
     env_file:
       - .env
     extra_hosts:
       - "gitlab.platform.net:192.168.88.130"
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
 
 volumes:
   gitlab-config:

@@ -15,5 +15,6 @@ services:
 # apt-mirror-sync
   apt-mirror-sync:
     image: 'docker.io/yannhowe/aptmirror-ubuntu1804'
+    restart: always
     volumes:
       - '/home/platypus/Code/platformplatform/apt-mirror/data/:/mnt/mirror/debian'
