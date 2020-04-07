@@ -11,6 +11,16 @@ git clone https://github.com/yannhowe/platformplatform.git
 # Download all the things in apt mirror
 docker-compose -f platformplatform/apt-mirror/docker-compose.yml up -d
 # wait for 160GB+ to come down
+
+# Set up automatic updates
+
+sudo tee -a /etc/apt/apt.conf.d/20auto-upgrades > /dev/null <<EOT
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+EOT
+
 ```
 
 ## Install microk8s
