@@ -25,11 +25,14 @@ EOT
 
 ## Install microk8s
 ```
+export microk8s_version=1.15/stable
+
 sudo echo # This prevents sudo from asking you for a password later
 sudo apt -y update && sudo apt -y upgrade
-sudo snap install microk8s --classic --channel=1.17/stable
+sudo snap install microk8s --classic --channel=${microk8s_version}
 sudo usermod -a -G microk8s $USER
-su - $USER
+exit # exit shall to let permissions take effect
+
 microk8s.status --wait-ready
 microk8s.enable dns dashboard ingress storage registry
 
@@ -48,7 +51,7 @@ sudo sh get-docker.sh
 
 # Add user to docker group so you don't need to sudo 
 sudo usermod -aG docker $USER
-# exit shell for changes to take effecr
+# exit shell for changes to take effect
 ```
 
 ## Install CLIs
@@ -119,8 +122,15 @@ sudo apt update
 ```
 sudo echo # This prevents sudo from asking you for a password later
 sudo tee -a /etc/netplan/01-netcfg.yaml > /dev/null <<EOT
-nameservers:
-    addresses: [10.2.32.1, 1.1.1.1, 8.8.8.8]
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: yes
+      nameservers:
+        addresses: [10.2.32.1, 1.1.1.1, 8.8.8.8]
+
 EOT
 sudo netplan apply
 

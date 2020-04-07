@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    restart: always
+    image: 'docker.io/nginx:1.17'
+    ports:
+      - "80:8080"
+    volumes:
+      - type: bind
+        source: ${PWD}/sites-enabled
+        target: /etc/nginx/sites-enabled
+      - type: bind
+        source: ${PWD}/conf/nginx.conf
+        target: /etc/nginx/nginx.conf
+      - type: bind
+        source: ${PWD}/www
+        target: /var/wwwcd

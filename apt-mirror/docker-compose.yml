@@ -6,8 +6,6 @@ services:
   apt-mirror:
     image: 'docker.io/nginx:1.17'
     restart: always
-    ports: 
-      - '1080:80'
     volumes:
       - '/home/platypus/Code/platformplatform/apt-mirror/data/mirror/:/usr/share/nginx/html:ro'
       - '/home/platypus/Code/platformplatform/apt-mirror/config/nginx:/etc/nginx/conf.d'

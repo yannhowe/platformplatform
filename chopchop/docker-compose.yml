@@ -4,8 +4,6 @@ services:
   minio:
     image: 'bitnami/minio:latest'
     restart: always
-    ports:
-      - '9090:9000'
     env_file:
       - .env
     volumes:
