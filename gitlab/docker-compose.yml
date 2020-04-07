@@ -24,7 +24,7 @@ services:
       - 'gitlab-data:/var/opt/gitlab'
       
   gitlab-runner-1:
-    image: gitlab/gitlab-runner:latest
+    image: gitlab/gitlab-runner:v12.9.0
     restart: always
     container_name: gitlab-runner-1
     hostname: gitlab-runner-1
@@ -36,7 +36,7 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
 
   gitlab-runner-2:
-    image: gitlab/gitlab-runner:latest
+    image: gitlab/gitlab-runner:v12.9.0
     restart: always
     container_name: gitlab-runner-2
     hostname: gitlab-runner-2
@@ -48,7 +48,7 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
       
   gitlab-runner-3:
-    image: gitlab/gitlab-runner:latest
+    image: gitlab/gitlab-runner:v12.9.0
     restart: always
     container_name: gitlab-runner-3
     hostname: gitlab-runner-3
