@@ -35,7 +35,7 @@ case "$1" in
                     --docker-image docker:stable
             ;;
         up)
-            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up --scale gitlab-runner=3  -d
+            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up  -d
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml up -d
@@ -51,7 +51,7 @@ case "$1" in
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml down --remove-orphans
-            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up --scale gitlab-runner=3  -d
+            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml up -d
