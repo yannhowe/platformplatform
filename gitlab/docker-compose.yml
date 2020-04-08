@@ -19,8 +19,8 @@ services:
         # Backup config
         gitlab_rails['backup_upload_connection'] = {
           'provider' => 'AWS',
-          'aws_access_key_id' => 'MINIO_ACCESS_KEY',
-          'aws_secret_access_key' => 'MINIO_SECRET_KEY',
+          'aws_access_key_id' => 'testingtesting123',
+          'aws_secret_access_key' => 'testingtesting123',
           'endpoint' => 'http://platformplatform_minio_1:9000',
           'path_style' => true
         }
@@ -33,8 +33,8 @@ services:
         gitlab_rails['artifacts_object_store_remote_directory'] = "gitlab-artifacts"
         gitlab_rails['artifacts_object_store_connection'] = {
           'provider' => 'AWS',
-          'aws_access_key_id' => 'MINIO_ACCESS_KEY',
-          'aws_secret_access_key' => 'MINIO_SECRET_KEY',
+          'aws_access_key_id' => 'testingtesting123',
+          'aws_secret_access_key' => 'testingtesting123',
           'endpoint' => 'http://platformplatform_minio_1:9000',
           'path_style' => true
         }
