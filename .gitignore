@@ -1,4 +1,9 @@
 apt-mirror/data/*
 chopchop/data/*
-minio/data/*
+minio/data/tx*
+minio/data/rx*
+minio/data/.minio.sys
+minio/data/gitlab/*
+gitlab/backup/secrets/*
+gitlab/backup/data/*
 .env
