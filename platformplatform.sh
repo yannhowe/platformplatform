@@ -11,10 +11,13 @@ wait_for_container_state () {
 
 case "$1" in
         init)
-            if [ -f ./gitlab/.env ]
+            if [ -f ${PWD}/gitlab/.env ]
             then
-                export $(cat ./gitlab/.env | xargs)
+                export $(cat ${PWD}/gitlab/.env | xargs)
             fi
+            # Enable incremental logs for object storage https://docs.gitlab.com/ee/administration/job_logs.html#enabling-incremental-logging
+            docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Feature.enable('ci_enable_live_trace')"
+            REGISTRATION_TOKEN=`docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token"`
             docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-1 \
                 gitlab-runner register \
                     --non-interactive \
@@ -42,7 +45,9 @@ case "$1" in
                     --url http://platformplatform_gitlab_1 \
                     --executor docker \
                     --docker-image docker:stable
+            mc config host add minio_host http://minio.platform.net testingtesting123 testingtesting123 --api S3v4
             ;;
+            # https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html
         backup)
             # GitLab
             dt=$(date +'%s_%Y_%m_%d');
@@ -54,14 +59,28 @@ case "$1" in
             docker exec -it platformplatform_gitlab_1 ls /var/opt/gitlab/backups/
             ;;
         restore)
+            echo "Copying last 7 days backups from object store..."
+            mc config host add minio_host http://minio.platform.net testingtesting123 testingtesting123 --api S3v4
+            mc mirror --newer-than 7d minio_host/gitlab-backups/ ${PWD}/tmp/backups/
+            docker cp  ${PWD}/tmp/backups/ platformplatform_gitlab_1:/var/opt/gitlab/
+            rm -f ${PWD}/tmp/backups/*
+            
             echo "Listing available backups:"
             echo "=========================="
-            docker exec -it platformplatform_gitlab_1 ls /var/opt/gitlab/backups
+            docker exec -it platformplatform_gitlab_1 ls /var/opt/gitlab/backups | grep _gitlab_backup.tar | sed s/_gitlab_backup.tar//g
             echo "=========================="
             echo ""
             read -p 'Backup to restore: ' backup_to_restore
             docker exec -it platformplatform_gitlab_1 gitlab-backup restore BACKUP=$backup_to_restore
             
+#            echo "Listing available secrets:"
+#            echo "=========================="
+#            ls -1 ${PWD}/gitlab/backup/secrets
+#            echo "=========================="
+#            echo ""
+#            read -p 'Secret to restore: ' secret_to_restore
+#            ls -1 ${PWD}/gitlab/backup/secrets/$secret_to_restore/ | xargs docker cp ${PWD}/gitlab/backup/secrets/$secret_to_restore/{} platformplatform_gitlab_1:/etc/gitlab/{}
+#            docker exec -it platformplatform_gitlab_1 ls -al /etc/gitlab/
             ;;
         up)
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up  -d

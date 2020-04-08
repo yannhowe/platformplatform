@@ -85,7 +85,13 @@ echo "Installing 'pks' v${pks_version}" \
 &&   sudo chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
 &&   sudo mv ./velero-v${velero_version}-linux-amd64/velero /usr/local/bin/velero \
 &&   sudo rm -rf velero-v${velero_version}-linux-amd64.tar.gz ./velero-v${velero_version}-linux-amd64 \
-&&   velero
+&&   velero \
+&&   echo "Installing 'mc" \
+&&   sudo wget -c https://dl.min.io/client/mc/release/linux-amd64/mc \
+&&   sudo chmod +x mc \
+&&   sudo mv mc /usr/local/bin/mc \
+&&   mc config host add minio_host http://minio.platform.net testingtesting123 testingtesting123 --api S3v4
+
 
 # Everything working?
 docker-compose
@@ -93,6 +99,7 @@ kubectl version
 pks --version
 helm version
 velero version
+mc 
 ```
 
 ## Change to local APT repo
