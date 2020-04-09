@@ -9,44 +9,54 @@ wait_for_container_state () {
     docker ps --filter "name=$1" --format "{{.Names}} {{.Status}}"
 }
 
+register_gitlab_runners () {
+    echo "Registering Runners with Gitlab"
+    REGISTRATION_TOKEN=`docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token"`
+    echo "Registration Token: $REGISTRATION_TOKEN"
+    docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-1 \
+        gitlab-runner register \
+            --non-interactive \
+            --registration-token=$REGISTRATION_TOKEN \
+            --locked=false \
+            --description=gitlab-runner-1 \
+            --url=http://platformplatform_gitlab_1 \
+            --executor docker \
+            --docker-image=docker:stable
+    docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-2 \
+        gitlab-runner register \
+            --non-interactive \
+            --registration-token=$REGISTRATION_TOKEN \
+            --locked=false \
+            --description=gitlab-runner-1 \
+            --url=http://platformplatform_gitlab_1 \
+            --executor docker \
+            --docker-image=docker:stable
+    docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-3 \
+        gitlab-runner register \
+            --non-interactive \
+            --registration-token=$REGISTRATION_TOKEN \
+            --locked=false \
+            --description=gitlab-runner-1 \
+            --url=http://platformplatform_gitlab_1 \
+            --executor docker \
+            --docker-image=docker:stable
+}
+
 case "$1" in
         init)
             if [ -f ${PWD}/gitlab/.env ]
             then
                 export $(cat ${PWD}/gitlab/.env | xargs)
             fi
+            if [ -f ${PWD}/.env ]
+            then
+                export $(cat ${PWD}/.env | xargs)
+            fi
             # Enable incremental logs for object storage https://docs.gitlab.com/ee/administration/job_logs.html#enabling-incremental-logging
+            echo -n "Setting Feature.enable('ci_enable_live_trace') to "
             docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Feature.enable('ci_enable_live_trace')"
-            REGISTRATION_TOKEN=`docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token"`
-            echo "Registration Token: $REGISTRATION_TOKEN"
-            docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-1 \
-                gitlab-runner register \
-                    --non-interactive \
-                    --registration-token=$REGISTRATION_TOKEN \
-                    --locked=false \
-                    --description=gitlab-runner-1 \
-                    --url=http://platformplatform_gitlab_1 \
-                    --executor docker \
-                    --docker-image=docker:stable
-            docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-2 \
-                gitlab-runner register \
-                    --non-interactive \
-                    --registration-token=$REGISTRATION_TOKEN \
-                    --locked=false \
-                    --description=gitlab-runner-1 \
-                    --url=http://platformplatform_gitlab_1 \
-                    --executor docker \
-                    --docker-image=docker:stable
-            docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-3 \
-                gitlab-runner register \
-                    --non-interactive \
-                    --registration-token=$REGISTRATION_TOKEN \
-                    --locked=false \
-                    --description=gitlab-runner-1 \
-                    --url=http://platformplatform_gitlab_1 \
-                    --executor docker \
-                    --docker-image=docker:stable
-            mc config host add minio_host http://minio.platform.net testingtesting123 testingtesting123 --api S3v4
+            register_gitlab_runners
+            mc config host add minio_host http://minio.platform.net $MINIO_ACCESS_KEY $MINIO_SECRET_KEY --api S3v4
             ;;
             # https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html
         backup)
@@ -87,15 +97,21 @@ case "$1" in
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml restart
             ;;
         up)
-            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up  -d
+            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up -d
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml up -d
             wait_for_container_state platformplatform_gitlab_1 healthy
+            register_gitlab_runners
+            ;;
+        logs)
+            docker-compose -f /home/platypus/Code/platformplatform/$2/docker-compose.yml logs -f
             ;;
         down)
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml down --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml down --remove-orphans
@@ -103,19 +119,23 @@ case "$1" in
             ;;
         restart)
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml down --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml down --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up -d
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml up -d
             wait_for_container_state platformplatform_gitlab_1 healthy
+            register_gitlab_runners
             ;;
         ps)
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml ps
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml ps
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml ps
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml ps
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml ps
@@ -126,6 +146,7 @@ case "$1" in
             ;;
         redeploy)
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml down -v --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml down -v --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml down -v --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml down -v --remove-orphans
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml down -v --remove-orphans
@@ -133,11 +154,13 @@ case "$1" in
             docker volume rm platformplatform_gitlab-config platformplatform_gitlab-data platformplatform_gitlab-logs
             docker system prune -f
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up  -d
+            docker-compose -f /home/platypus/Code/platformplatform/airflow/docker-compose.yml up  -d
             docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml up -d
             docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml up -d
             wait_for_container_state platformplatform_gitlab_1 healthy
+            register_gitlab_runners
             ;;
         nuke)
             docker stop $(docker ps -a -q)
