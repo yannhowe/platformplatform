@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   gitlab:
-    image: 'docker.io/gitlab/gitlab-ce:12.9.2-ce.0'
+    image: 'docker.io/gitlab/gitlab-ce:12.8.8-ce.0'
     restart: always
     privileged: true
     hostname: 'gitlab.platform.net'
@@ -11,6 +11,7 @@ services:
       - .env
     environment:
       GITLAB_OMNIBUS_CONFIG: |  
+        gitlab_rails['time_zone'] = 'Asia/Hong_Kong'
         external_url 'http://gitlab.platform.net'
         letsencrypt['enable'] = false
         registry_external_url 'http://gitlab.platform.net:5050'        
@@ -47,7 +48,7 @@ services:
       - 'gitlab-data:/var/opt/gitlab'
       
   gitlab-runner-1:
-    image: gitlab/gitlab-runner:v12.9.0
+    image: gitlab/gitlab-runner:v12.8.0
     restart: always
     env_file:
       - .env
@@ -57,7 +58,7 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
 
   gitlab-runner-2:
-    image: gitlab/gitlab-runner:v12.9.0
+    image: gitlab/gitlab-runner:v12.8.0
     restart: always
     env_file:
       - .env
@@ -67,7 +68,7 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
       
   gitlab-runner-3:
-    image: gitlab/gitlab-runner:v12.9.0
+    image: gitlab/gitlab-runner:v12.8.0
     restart: always
     env_file:
       - .env
@@ -81,3 +82,5 @@ volumes:
   gitlab-config:
   gitlab-logs:
   gitlab-data:
+
+    

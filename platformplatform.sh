@@ -18,33 +18,34 @@ case "$1" in
             # Enable incremental logs for object storage https://docs.gitlab.com/ee/administration/job_logs.html#enabling-incremental-logging
             docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Feature.enable('ci_enable_live_trace')"
             REGISTRATION_TOKEN=`docker exec -it platformplatform_gitlab_1 gitlab-rails runner "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token"`
+            echo "Registration Token: $REGISTRATION_TOKEN"
             docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-1 \
                 gitlab-runner register \
                     --non-interactive \
-                    --registration-token $REGISTRATION_TOKEN \
+                    --registration-token=$REGISTRATION_TOKEN \
                     --locked=false \
-                    --description gitlab-runner-1 \
-                    --url http://platformplatform_gitlab_1 \
+                    --description=gitlab-runner-1 \
+                    --url=http://platformplatform_gitlab_1 \
                     --executor docker \
-                    --docker-image docker:stable
+                    --docker-image=docker:stable
             docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-2 \
                 gitlab-runner register \
                     --non-interactive \
-                    --registration-token $REGISTRATION_TOKEN \
+                    --registration-token=$REGISTRATION_TOKEN \
                     --locked=false \
-                    --description gitlab-runner-2 \
-                    --url http://platformplatform_gitlab_1 \
+                    --description=gitlab-runner-1 \
+                    --url=http://platformplatform_gitlab_1 \
                     --executor docker \
-                    --docker-image docker:stable
+                    --docker-image=docker:stable
             docker-compose -f ${PWD}/gitlab/docker-compose.yml exec gitlab-runner-3 \
                 gitlab-runner register \
                     --non-interactive \
-                    --registration-token $REGISTRATION_TOKEN \
+                    --registration-token=$REGISTRATION_TOKEN \
                     --locked=false \
-                    --description gitlab-runner-3 \
-                    --url http://platformplatform_gitlab_1 \
+                    --description=gitlab-runner-1 \
+                    --url=http://platformplatform_gitlab_1 \
                     --executor docker \
-                    --docker-image docker:stable
+                    --docker-image=docker:stable
             mc config host add minio_host http://minio.platform.net testingtesting123 testingtesting123 --api S3v4
             ;;
             # https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html
@@ -73,14 +74,17 @@ case "$1" in
             read -p 'Backup to restore: ' backup_to_restore
             docker exec -it platformplatform_gitlab_1 gitlab-backup restore BACKUP=$backup_to_restore
             
-#            echo "Listing available secrets:"
-#            echo "=========================="
-#            ls -1 ${PWD}/gitlab/backup/secrets
-#            echo "=========================="
-#            echo ""
-#            read -p 'Secret to restore: ' secret_to_restore
-#            ls -1 ${PWD}/gitlab/backup/secrets/$secret_to_restore/ | xargs docker cp ${PWD}/gitlab/backup/secrets/$secret_to_restore/{} platformplatform_gitlab_1:/etc/gitlab/{}
-#            docker exec -it platformplatform_gitlab_1 ls -al /etc/gitlab/
+            echo "Listing available secrets:"
+            echo "=========================="
+            ls -1 ${PWD}/gitlab/backup/secrets
+            echo "=========================="
+            echo ""
+            read -p 'gitlab-secrets.json to restore: ' secret_to_restore
+            docker exec -it platformplatform_gitlab_1 rm -f /etc/gitlab/gitlab-secrets.json
+            docker cp ${PWD}/gitlab/backup/secrets/$secret_to_restore/gitlab/gitlab-secrets.json platformplatform_gitlab_1:/etc/gitlab/gitlab-secrets.json
+            docker exec -it platformplatform_gitlab_1 ls -lRa /etc/gitlab/
+            docker exec -it platformplatform_gitlab_1 cat /etc/gitlab/gitlab-secrets.json | grep secret_token
+            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml restart
             ;;
         up)
             docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up  -d
@@ -119,6 +123,21 @@ case "$1" in
             ;;
         clean)
             docker system prune -a
+            ;;
+        redeploy)
+            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml down -v --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml down -v --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml down -v --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml down -v --remove-orphans
+            docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml down -v --remove-orphans
+            docker volume rm platformplatform_gitlab-config platformplatform_gitlab-data platformplatform_gitlab-logs
+            docker system prune -f
+            docker-compose -f /home/platypus/Code/platformplatform/gitlab/docker-compose.yml up  -d
+            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose.yml up -d
+            docker-compose -f /home/platypus/Code/platformplatform/minio/docker-compose.yml up -d
+            docker-compose -f /home/platypus/Code/platformplatform/chopchop/docker-compose.yml up -d
+            docker-compose -f /home/platypus/Code/platformplatform/nginx/docker-compose.yml up -d
+            wait_for_container_state platformplatform_gitlab_1 healthy
             ;;
         nuke)
             docker stop $(docker ps -a -q)
