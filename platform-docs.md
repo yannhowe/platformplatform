@@ -108,18 +108,18 @@ sudo echo # This prevents sudo from asking you for a password later
 sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak.`date +%Y-%m-%dT%H:%M:%S%z`
 
 sudo tee -a /etc/apt/sources.list > /dev/null <<EOT
-deb [trusted=yes] http://apt-mirror.platform.net:1080/ bionic main restricted
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic main restricted
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic-updates main restricted
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic universe
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic-updates universe
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic multiverse
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic-updates multiverse
-deb [trusted=yes] http://apt-mirror.platform.net:1080/us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
-deb [trusted=yes] http://apt-mirror.platform.net:1080/security.ubuntu.com/ubuntu/ bionic-security main restricted
-deb [trusted=yes] http://apt-mirror.platform.net:1080/security.ubuntu.com/ubuntu/ bionic-security universe
-deb [trusted=yes] http://apt-mirror.platform.net:1080/security.ubuntu.com/ubuntu/ bionic-security multiverse
-deb [arch=amd64, trusted=yes] http://apt-mirror.platform.net:1080/download.docker.com/linux/ubuntu bionic stable
+deb [trusted=yes] http://apt-mirror.platform.net/ bionic main restricted
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic main restricted
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic-updates main restricted
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic universe
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic-updates universe
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic multiverse
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic-updates multiverse
+deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb [trusted=yes] http://apt-mirror.platform.net/security.ubuntu.com/ubuntu/ bionic-security main restricted
+deb [trusted=yes] http://apt-mirror.platform.net/security.ubuntu.com/ubuntu/ bionic-security universe
+deb [trusted=yes] http://apt-mirror.platform.net/security.ubuntu.com/ubuntu/ bionic-security multiverse
+deb [arch=amd64, trusted=yes] http://apt-mirror.platform.net/download.docker.com/linux/ubuntu bionic stable
 EOT
 
 sudo apt update
