@@ -123,7 +123,7 @@ deb [arch=amd64, trusted=yes] http://apt-mirror.platform.net/download.docker.com
 EOT
 
 sudo apt update
-sudo apt install cifs-utils nfs-common -y
+sudo apt install cifs-utils nfs-common unzip -y
 ```
 
 # Configure nameservers & hostsfile
