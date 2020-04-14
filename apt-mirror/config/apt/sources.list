@@ -7,6 +7,6 @@ deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ b
 deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic-updates multiverse
 deb [trusted=yes] http://apt-mirror.platform.net/us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
 deb [trusted=yes] http://apt-mirror.platform.net/security.ubuntu.com/ubuntu/ bionic-security main restricted
-deb [trusted=yes] http://apt-mirror.platform.net0/security.ubuntu.com/ubuntu/ bionic-security universe
+deb [trusted=yes] http://apt-mirror.platform.net/security.ubuntu.com/ubuntu/ bionic-security universe
 deb [trusted=yes] http://apt-mirror.platform.net/security.ubuntu.com/ubuntu/ bionic-security multiverse
 deb [trusted=yes] http://apt-mirror.platform.net/download.docker.com/linux/ubuntu bionic stable
