@@ -102,7 +102,7 @@ velero version
 mc 
 ```
 
-## Change to local APT repo
+## Change to local APT repo & Install standard softwares
 ```
 sudo echo # This prevents sudo from asking you for a password later
 sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak.`date +%Y-%m-%dT%H:%M:%S%z`
@@ -123,6 +123,7 @@ deb [arch=amd64, trusted=yes] http://apt-mirror.platform.net/download.docker.com
 EOT
 
 sudo apt update
+sudo apt install cifs-utils nfs-common -y
 ```
 
 # Configure nameservers & hostsfile
@@ -173,4 +174,4 @@ sudo tee -a /etc/rc.local > /dev/null <<EOT
 exit 0
 EOT
 
-sudo cdmod +x /etc/rc.local
+sudo chmod +x /etc/rc.local
