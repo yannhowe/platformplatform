@@ -1,6 +1,6 @@
 #!/bin/bash
 
-services=( nginx minio gitlab airflow apt-mirror chopchop )
+services=( nginx minio gitlab airflow apt-mirror chopchop harbor )
 
 wait_for_container_state () {
     until [ `docker ps --filter "name=$1" --filter "health=$2" --format "{{.Names}}"` ]
