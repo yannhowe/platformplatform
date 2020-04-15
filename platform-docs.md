@@ -34,7 +34,7 @@ sudo usermod -a -G microk8s $USER
 exit # exit shall to let permissions take effect
 
 microk8s.status --wait-ready
-microk8s.enable dns dashboard ingress storage registry
+microk8s.enable dns dashboard storage registry
 
 # Alias microk8s.kubectl to kubectl
 alias kubectl='microk8s.kubectl'

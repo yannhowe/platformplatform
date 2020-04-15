@@ -154,10 +154,10 @@ case "$1" in
             register_gitlab_runners
             ;;        
         ext-up)
-            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml up -d apt-mirror
+            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml up -d
             ;;      
         ext-down)
-            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml down -d apt-mirror
+            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml down -d
             ;;
         nuke)
             docker stop $(docker ps -a -q)
