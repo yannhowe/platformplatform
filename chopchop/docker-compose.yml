@@ -4,7 +4,10 @@ services:
 
   splitter:
     image: goal86sg/chopchop:latest 
-    entrypoint: ["/app/wait-for-it.sh" , "platformplatform_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
+    networks:
+      - minio_default
+      - default
+    entrypoint: ["/app/wait-for-it.sh" , "minio_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
     restart: always
     environment: 
       - TX=TRUE
@@ -16,3 +19,7 @@ services:
 
 volumes: 
   mc_config:
+
+networks:
+  minio_default:
+    external: true

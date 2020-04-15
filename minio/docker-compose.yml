@@ -4,8 +4,15 @@ services:
 # MinIO
   minio:
     image: 'bitnami/minio:latest'
+    networks:
+      - nginx_default
+      - default
     restart: always
     env_file:
       - .env
     volumes:
       - ${PWD}/minio/data:/data
+
+networks:
+  nginx_default:
+    external: true

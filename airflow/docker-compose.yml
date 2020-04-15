@@ -21,6 +21,9 @@ services:
       - .env
   airflow:
     image: bitnami/airflow:1
+    networks:
+      - nginx_default
+      - default
     volumes:
       - airflow_data:/bitnami
     env_file:
@@ -35,3 +38,7 @@ volumes:
     driver: local
   redis_data:
     driver: local
+
+networks:
+  nginx_default:
+    external: true

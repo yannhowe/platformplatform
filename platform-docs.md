@@ -63,23 +63,25 @@ export helm_version=3.1.1
 export velero_version=1.2.0
 
 echo "Installing 'pks' v${pks_version}" \
-&& sudo wget -cO /usr/local/bin/pks https://github.com/yannhowe/docker-pks-cli/raw/master/pks_cli/pks-linux-amd64-1.6.1 \
-&& echo "Installing 'kubectl' v${kubectl_version}" \
+&&   sudo wget -cO /usr/local/bin/pks https://github.com/yannhowe/docker-pks-cli/raw/master/pks_cli/pks-linux-amd64-1.6.1 \
+&&   sudo chmod 0755 /usr/local/bin/pks \
+&&   pks --version \
+&&   echo "Installing 'kubectl' v${kubectl_version}" \
 &&   sudo wget -cO /usr/local/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/v${kubectl_version}/bin/linux/amd64/kubectl \
 &&   sudo chmod 0755 /usr/local/bin/kubectl \
 &&   kubectl version --client \
-&& echo "Installing 'docker-compose' v${docker_compose_version}" \
+&&   echo "Installing 'docker-compose' v${docker_compose_version}" \
 &&   sudo wget -cO /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m) \
 &&   sudo chmod 0755 /usr/local/bin/docker-compose \
 &&   docker-compose --version \
-&& echo "Installing 'helm' v${helm_version}" \
+&&   echo "Installing 'helm' v${helm_version}" \
 &&   sudo wget -c https://get.helm.sh/helm-v${helm_version}-linux-amd64.tar.gz \
 &&   sudo tar -zxvf helm-v${helm_version}-linux-amd64.tar.gz \
 &&   sudo chmod 0755 ./linux-amd64/helm \
 &&   sudo mv ./linux-amd64/helm /usr/local/bin/helm \
 &&   sudo rm -rf helm-v${helm_version}-linux-amd64.tar.gz ./linux-amd64/ \
 &&   helm \
-&& echo "Installing 'velero' v${velero_version}" \
+&&   echo "Installing 'velero' v${velero_version}" \
 &&   sudo wget -c https://github.com/vmware-tanzu/velero/releases/download/v${velero_version}/velero-v${velero_version}-linux-amd64.tar.gz \
 &&   sudo tar -zxvf velero-v${velero_version}-linux-amd64.tar.gz \
 &&   sudo chmod 0755 ./velero-v${velero_version}-linux-amd64/velero \
@@ -175,3 +177,18 @@ exit 0
 EOT
 
 sudo chmod +x /etc/rc.local
+
+## Mount folder using fstab
+
+```
+sudo echo "//192.168.0.117/Code /mnt/Code cifs user=smbuser,password=password,vers=3.0  0  0" > /etc/fstab
+```
+
+or using credentials file
+
+```
+sudo echo "user=smbuser" > /.smb_creds
+sudo echo "password=password" >> /.smb_creds
+sudo chmod 600 /.smb_cred
+sudo echo "//192.168.0.117/Code /mnt/Code cifs vers=3.0  0  0" > /etc/fstab
+```

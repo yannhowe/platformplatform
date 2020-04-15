@@ -8,7 +8,7 @@ services:
 
   splitter:
     image: goal86sg/chopchop:latest 
-    entrypoint: ["/app/wait-for-it.sh" , "platformplatform_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
+    entrypoint: ["/app/wait-for-it.sh" , "minio_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
     restart: always
     environment: 
       - TX=TRUE
@@ -20,7 +20,7 @@ services:
 
   joiner:
     image: goal86sg/chopchop:latest 
-    entrypoint: ["/app/wait-for-it.sh" , "platformplatform_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
+    entrypoint: ["/app/wait-for-it.sh" , "minio_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
     restart: always
     environment: 
       - RX=TRUE
@@ -32,7 +32,7 @@ services:
 
   diode:
     image: goal86sg/chopchop:latest 
-    entrypoint: ["/app/wait-for-it.sh" , "platformplatform_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/diode.sh"]
+    entrypoint: ["/app/wait-for-it.sh" , "minio_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/diode.sh"]
     restart: always
     env_file:
       - .env
@@ -41,7 +41,7 @@ services:
 
   janitor:
     image: goal86sg/chopchop:latest 
-    entrypoint: ["/app/wait-for-it.sh" , "platformplatform_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/janitor.sh"]
+    entrypoint: ["/app/wait-for-it.sh" , "minio_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/janitor.sh"]
     restart: always
     env_file:
       - .env

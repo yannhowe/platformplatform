@@ -12,7 +12,14 @@ services:
     volumes:
       - '/home/platypus/Code/platformplatform/apt-mirror/data/mirror/:/usr/share/nginx/html:ro'
       - '/home/platypus/Code/platformplatform/apt-mirror/config/nginx:/etc/nginx/conf.d'
-      
+
+# apt-mirror-sync
+  apt-mirror-sync:
+    image: 'docker.io/yannhowe/aptmirror-ubuntu1804'
+    restart: always
+    volumes:
+      - '/home/platypus/Code/platformplatform/apt-mirror/data/:/mnt/mirror/debian'
+
 networks:
   nginx_default:
     external: true

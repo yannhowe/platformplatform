@@ -4,6 +4,10 @@ services:
 
   gitlab:
     image: 'docker.io/gitlab/gitlab-ce:12.8.8-ce.0'
+    networks:
+      - nginx_default
+      - minio_default
+      - default
     restart: always
     privileged: true
     hostname: 'gitlab.platform.net'
@@ -22,7 +26,7 @@ services:
           'provider' => 'AWS',
           'aws_access_key_id' => 'testingtesting123',
           'aws_secret_access_key' => 'testingtesting123',
-          'endpoint' => 'http://platformplatform_minio_1:9000',
+          'endpoint' => 'http://minio_minio_1:9000',
           'path_style' => true
         }
         gitlab_rails['backup_upload_remote_directory'] = 'gitlab-backups'
@@ -36,7 +40,7 @@ services:
           'provider' => 'AWS',
           'aws_access_key_id' => 'testingtesting123',
           'aws_secret_access_key' => 'testingtesting123',
-          'endpoint' => 'http://platformplatform_minio_1:9000',
+          'endpoint' => 'http://minio_minio_1:9000',
           'path_style' => true
         }
         gitlab_rails['expire_build_artifacts_worker_cron'] = "50 * * * *"
@@ -83,4 +87,8 @@ volumes:
   gitlab-logs:
   gitlab-data:
 
-    
+networks:
+  nginx_default:
+    external: true
+  minio_default:
+    external: true
