@@ -1,0 +1,133 @@
+############################ Default configuration #########################
+baseURL = "http://platform.net/"
+languageCode = "en-us"
+# site title 
+title = "Platform.Net | Get Building!"
+# theme
+theme = "northendlab-hugo"
+# post pagination
+paginate = "5"
+# post excerpt
+summaryLength = "10"
+# disqus short name
+disqusShortname = "" # get your shortname form here : https://disqus.com
+
+[outputs]
+home = ["HTML", "AMP", "RSS", "JSON"]
+
+########################## Plugings ######################################
+
+# css plugins
+[[params.plugins.css]]
+link = "plugins/bootstrap/bootstrap.min.css"
+[[params.plugins.css]]
+link = "plugins/themify-icons/themify-icons.css"
+
+# js plugins
+[[params.plugins.js]]
+link = "plugins/jQuery/jquery.min.js"
+[[params.plugins.js]]
+link = "plugins/bootstrap/bootstrap.min.js"
+[[params.plugins.js]]
+link = "plugins/search/fuse.min.js"
+[[params.plugins.js]]
+link = "plugins/search/mark.js"
+[[params.plugins.js]]
+link = "plugins/search/search.js"
+
+
+########################### Navigation ###################################
+
+# main menu
+[[menu.main]]
+URL = "http://gitlab.platform.net"
+name = "GitLab"
+weight = 1
+
+[[menu.main]]
+URL = "http://mattermost.platform.net"
+name = "Mattermost"
+weight = 2
+
+[[menu.main]]
+URL = "tools"
+name = "Features"
+weight = 3
+
+[[menu.main]]
+URL = "http://gitlab.platform.net/platform/docs-for-devs/"
+name = "Documentation"
+weight = 4
+
+# footer menu
+[[menu.footer]]
+URL = "http://gitlab.platform.net"
+name = "GitLab"
+weight = 1
+
+[[menu.footer]]
+URL = "http://mattermost.platform.net"
+name = "Mattermost"
+weight = 2
+
+
+######################### Default Parameters ###########################
+[params]
+# home
+home = "Home"
+# logo
+logo = "images/platypus.png"
+# meta data
+author = "Themefisher"
+description = "This is meta description"
+# google tag manager
+google_tag_manager = "" # your id
+# google analitycs ID
+google_analitycs_id = "" # your id
+# contact form action
+contact_form_action = "#" # contact form works with : https://formspree.io
+# copyright
+copyright = "&copy; 2020 [Gethugothemes](https://gethugothemes.com) All Rights Reserved"
+
+# preloader
+[params.preloader]
+enable = true
+preloader = "" # use png, jpg, svg or gif format
+
+# search
+[params.search]
+enable = true
+
+
+####################### banner #######################################
+[params.banner]
+bgImage = "images/banner/banner-bg.svg"
+title = "Hello, we're the platform team. <br> We help you make and deliver software."
+image = "images/banner/illustration.svg"
+
+
+######################## call to action ###############################
+[params.cta]
+enable = true
+image = "images/hugo-muscot.svg"
+title = "Not sure where to start?"
+description = "The platform docs for devs should give you an idea or two."
+[params.cta.button]
+enable = true
+label = "Visit Here"
+link = "http://gitlab.platform.net/platform/docs-for-devs/"
+
+
+############################## Social Site ##########################
+[[params.social]]
+icon = "ti-facebook" # themify icon pack https://themify.me/themify-icons
+link = "#"
+[[params.social]]
+icon = "ti-twitter-alt" # themify icon pack https://themify.me/themify-icons
+link = "#"
+[[params.social]]
+icon = "ti-github" # themify icon pack https://themify.me/themify-icons
+link = "#"
+[[params.social]]
+icon = "ti-linkedin" # themify icon pack https://themify.me/themify-icons
+link = "#"

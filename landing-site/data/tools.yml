@@ -1,0 +1,232 @@
+tools:
+# tool category
+- title: Dev Tools
+  tool:
+  # tool loop in tool category
+  - name: GitLab
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: Git
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: Atom
+    image: "/images/tools/Atom.png"
+    link: https://atom.io/
+  # tool loop in tool category
+  - name: Notepad ++
+    image: "/images/tools/Notepad.png"
+    link: https://notepad-plus-plus.org/
+  # tool loop in tool category
+  - name: Sublime Text
+    image: "/images/tools/sublime.png"
+    link: https://www.sublimetext.com/
+  # tool loop in tool category
+  - name: Visual Studio Code
+    image: "/images/tools/vs-code.png"
+    link: https://code.visualstudio.com/
+  # tool loop in tool category
+  - name: Command Line Interfaces
+    image: "/images/tools/vs-code.png"
+    link: https://code.visualstudio.com/
+  # tool loop in tool category
+  - name: Vault
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+
+- title: Collaboration & Tooling
+  tool:
+  # tool loop in tool category
+  - name: GitLab
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+  # tool loop in tool category
+  - name: Mattermost
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+  # tool loop in tool category
+  - name: Artifactory
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+  # tool loop in tool category
+  - name: Jenkins
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+  # tool loop in tool category
+  - name: Jira
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+
+# tool category
+- title: Compute
+  tool:
+  # tool loop in tool category
+  - name: vRealize Automation (vRA) (Dec 2020)
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+  # tool loop in tool category
+  - name: VMware vCenter
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+
+# tool category
+- title: Containers
+  tool:
+  # tool loop in tool category
+  - name: Pivotal Kubernetes Service (PKS)
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+  # tool loop in tool category
+  - name: Docker-Compose
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+
+# tool category
+- title: Monitoring, Logging & Alerting
+  tool:
+  # tool loop in tool category
+  - name: Splunk
+    image: "/images/tools/illustrator.png"
+    link: https://www.adobe.com/products/illustrator.html
+  # tool loop in tool category
+  - name: vRealise Operations (vROps)
+    image: "/images/tools/xd.png"
+    link: https://www.adobe.com/products/xd.html
+  # tool loop in tool category
+  - name: RESTful SMS API
+    image: "/images/tools/invision.png"
+    link: https://www.invisionapp.com/studio
+  # tool loop in tool category
+  - name: Prometheus
+    image: "/images/tools/figma.png"
+    link: https://www.figma.com/
+  # tool loop in tool category
+  - name: WhatsUp
+    image: "/images/tools/sketch.png"
+    link: https://www.sketch.com/
+
+# tool category
+- title: Automation & Analytics
+  tool:
+  # tool loop in tool category
+  - name: Splunk
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+  # tool loop in tool category
+  - name: vRealize Log Insight
+    image: "/images/tools/Buffer.jpg"
+    link: https://buffer.com/
+  # tool loop in tool category
+  - name: Ansible
+    image: "/images/tools/Buffer.jpg"
+    link: https://buffer.com/
+  # tool loop in tool category
+  - name: Apache Airflow
+    image: "/images/tools/Buffer.jpg"
+    link: https://buffer.com/
+
+# tool category
+- title: Machine Learning
+  tool:
+  # tool loop in tool category
+  - name: GPU VMs/Baremetal
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+  # tool loop in tool category
+  - name: Jupyter Notebook
+    image: "/images/tools/Buffer.jpg"
+    link: https://buffer.com/
+  # tool loop in tool category
+  - name: Apache Airflow
+    image: "/images/tools/Buffer.jpg"
+    link: https://buffer.com/
+  # tool loop in tool category
+  - name: Kubeflow
+    image: "/images/tools/Buffer.jpg"
+    link: https://buffer.com/
+    
+# tool category
+- title: Database
+  tool:
+  # tool loop in tool category
+  - name: MariaDB
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+  # tool loop in tool category
+  - name: MongoDB
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+  # tool loop in tool category
+  - name: Redis
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+  # tool loop in tool category
+  - name: Neo4J
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+  # tool loop in tool category
+  - name: ElasticSearch
+    image: "/images/tools/MailChimp.jpg"
+    link: https://mailchimp.com/
+    
+- title: Infra Security
+  tool:
+  # tool loop in tool category
+  - name: Certificate Services
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: Vault
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: ChopChop
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+
+- title: End User Computing
+  tool:
+  # tool loop in tool category
+  - name: Software Centre
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+
+  # tool loop in tool category
+  - name: Software Centre
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+
+- title: Storage
+  tool:
+  # tool loop in tool category
+  - name: Object Storage
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: Netowrk Attached Storage (NAS)
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: Storage Area Network (SAN)
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+
+- title: Networking
+  tool:
+  # tool loop in tool category
+  - name: Data Point Patching
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: Firewall Management
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: DNS
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/
+  # tool loop in tool category
+  - name: L4/DNS Load Balancing
+    image: "/images/tools/Git.png"
+    link: https://git-scm.com/

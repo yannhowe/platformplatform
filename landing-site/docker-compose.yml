@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  server:
+    image: klakegg/hugo:0.69.0
+    restart: always
+    networks:
+      - nginx_default
+      - default
+    command: server --baseURL http://platform.net/ --port 80 --watch=false
+    volumes:
+      - "/home/platypus/Code/platformplatform/landing-site:/src"
+
+networks:
+  nginx_default:
+    external: true
