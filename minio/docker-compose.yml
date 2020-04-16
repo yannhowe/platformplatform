@@ -11,8 +11,11 @@ services:
     env_file:
       - .env
     volumes:
-      - ${PWD}/minio/data:/data
+      - minio_data:/data
 
 networks:
   nginx_default:
     external: true
+
+volumes:
+  minio_data:
