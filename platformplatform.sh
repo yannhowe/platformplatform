@@ -102,7 +102,7 @@ case "$1" in
             for i in "${services[@]}"
                 do
                     :
-                    #docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
+                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
                 done
             wait_for_container_state gitlab_gitlab_1 healthy
             register_gitlab_runners
