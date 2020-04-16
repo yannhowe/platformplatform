@@ -107,10 +107,28 @@ case "$1" in
             wait_for_container_state gitlab_gitlab_1 healthy
             register_gitlab_runners
             ;;
+        up-ext)
+            for i in "${services[@]}"
+                do
+                    :
+                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
+                done
+	            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml up -d
+            wait_for_container_state gitlab_gitlab_1 healthy
+            register_gitlab_runners
+            ;;
         logs)
             docker-compose -f /home/platypus/Code/platformplatform/$2/docker-compose.yml logs -f
             ;;
         down)
+            for i in "${services[@]}"
+                do
+                    :
+                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down --remove-orphans
+                done
+	            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml down --remove-orphans
+            ;;
+        down-ext)
             for i in "${services[@]}"
                 do
                     :
@@ -153,12 +171,6 @@ case "$1" in
             wait_for_container_state gitlab_gitlab_1 healthy
             register_gitlab_runners
             ;;        
-        ext-up)
-            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml up -d
-            ;;      
-        ext-down)
-            docker-compose -f /home/platypus/Code/platformplatform/apt-mirror/docker-compose-sync.yml down -d
-            ;;
         nuke)
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
