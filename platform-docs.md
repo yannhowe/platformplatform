@@ -152,6 +152,7 @@ sudo tee -a /etc/hosts > /dev/null <<EOT
 127.0.0.1      gitlab.platform.net
 127.0.0.1      harbor.platform.net
 127.0.0.1      apt-mirror.platform.net
+127.0.0.1      airflow.platform.net
 EOT
 ```
 
