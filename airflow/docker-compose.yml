@@ -26,6 +26,7 @@ services:
       - default
     volumes:
       - airflow_data:/bitnami
+      - '/home/platypus/Code/platformplatform/airflow/dag/:/opt/bitnami/airflow/dags'
     env_file:
       - .env
 
