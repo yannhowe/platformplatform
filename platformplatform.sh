@@ -12,6 +12,7 @@ wait_for_container_state () {
 }
 
 register_gitlab_runners () {
+    wait_for_container_state gitlab_gitlab_1 healthy
     echo "Registering Runners with Gitlab"
     REGISTRATION_TOKEN=`docker exec -it gitlab_gitlab_1 gitlab-rails runner "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token"`
     echo "Registration Token: $REGISTRATION_TOKEN"
@@ -104,7 +105,6 @@ case "$1" in
                     :
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
                 done
-            wait_for_container_state gitlab_gitlab_1 healthy
             register_gitlab_runners
             ;;
         up-ext)
@@ -142,7 +142,6 @@ case "$1" in
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down --remove-orphans
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
                 done
-            wait_for_container_state gitlab_gitlab_1 healthy
             register_gitlab_runners
             ;;
         ps)
@@ -168,7 +167,6 @@ case "$1" in
                     :
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
                 done
-            wait_for_container_state gitlab_gitlab_1 healthy
             register_gitlab_runners
             ;;        
         nuke)
