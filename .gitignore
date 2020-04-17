@@ -7,4 +7,3 @@ minio/data/gitlab-backups/*
 minio/data/gitlab-artifacts/*
 gitlab/backup/secrets/*
 gitlab/backup/data/*
-airflow/dag/*
