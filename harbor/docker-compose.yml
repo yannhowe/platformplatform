@@ -6,22 +6,22 @@ services:
     restart: always
     volumes:
       - registry_data:/storage
-      - ${PWD}/harbor/config/registry:/etc/registry:ro
+      - /home/platypus/Code/platformplatform/harbor/config/registry:/etc/registry:ro
   registryctl:
     image: bitnami/harbor-registryctl:1
     restart: always
     environment:
-      - CORE_SECRET=CHANGEME
-      - JOBSERVICE_SECRET=CHANGEME
+      - CORE_SECRET=${HARBOR_PASSWORD_2}
+      - JOBSERVICE_SECRET=${HARBOR_PASSWORD_3}
     volumes:
       - registry_data:/storage
-      - ${PWD}/harbor/config/registry:/etc/registry:ro
-      - ${PWD}/harbor/config/registryctl:/etc/registryctl:ro
+      - /home/platypus/Code/platformplatform/harbor/config/registry:/etc/registry:ro
+      - /home/platypus/Code/platformplatform/harbor/config/registryctl:/etc/registryctl:ro
   postgresql:
     image: bitnami/postgresql:11
     restart: always
     environment:
-      - POSTGRESQL_PASSWORD=bitnami
+      - POSTGRESQL_PASSWORD=${HARBOR_PASSWORD_1}
       - POSTGRESQL_DATABASE=registry
     volumes:
       - postgresql_data:/bitnami/postgresql
@@ -32,7 +32,7 @@ services:
       - registry
       - chartmuseum
     environment:
-      - CORE_KEY=change-this-key
+      - CORE_KEY=${HARBOR_PASSWORD_4}
       - _REDIS_URL=redis:6379,100,
       - SYNC_REGISTRY=false
       - CHART_CACHE_DRIVER=redis
@@ -45,13 +45,13 @@ services:
       - POSTGRESQL_PORT=5432
       - POSTGRESQL_DATABASE=registry
       - POSTGRESQL_USERNAME=postgres
-      - POSTGRESQL_PASSWORD=bitnami
+      - POSTGRESQL_PASSWORD=${HARBOR_PASSWORD_1}
       - POSTGRESQL_SSLMODE=disable
       - REGISTRY_URL=http://registry:5000
       - TOKEN_SERVICE_URL=http://core:8080/service/token
-      - HARBOR_ADMIN_PASSWORD=bitnami
-      - CORE_SECRET=CHANGEME
-      - JOBSERVICE_SECRET=CHANGEME
+      - HARBOR_ADMIN_PASSWORD=${HARBOR_PASSWORD_5}
+      - CORE_SECRET=${HARBOR_PASSWORD_2}
+      - JOBSERVICE_SECRET=${HARBOR_PASSWORD_3}
       - ADMIRAL_URL=
       - WITH_NOTARY=False
       - WITH_CLAIR=False
@@ -64,7 +64,7 @@ services:
       - RELOAD_KEY=
     volumes:
       - core_data:/data
-      - ${PWD}/harbor/config/core:/etc/core
+      - /home/platypus/Code/platformplatform/harbor/config/core:/etc/core
   portal:
     image: bitnami/harbor-portal:1
     restart: always
@@ -77,12 +77,12 @@ services:
       - redis
       - core
     environment:
-      - CORE_SECRET=CHANGEME
-      - JOBSERVICE_SECRET=CHANGEME
+      - CORE_SECRET=${HARBOR_PASSWORD_2}
+      - JOBSERVICE_SECRET=${HARBOR_PASSWORD_3}
       - CORE_URL=http://core:8080
     volumes:
       - jobservice_data:/var/log/jobs
-      - ${PWD}/harbor/config/jobservice:/etc/jobservice:ro
+      - /home/platypus/Code/platformplatform/harbor/config/jobservice:/etc/jobservice:ro
   redis:
     image: bitnami/redis:5.0
     restart: always
@@ -95,7 +95,7 @@ services:
       - nginx_default
     restart: always
     volumes:
-      - ${PWD}/harbor/config/proxy:/opt/bitnami/nginx/conf:ro
+      - /home/platypus/Code/platformplatform/harbor/config/proxy:/opt/bitnami/nginx/conf:ro
     depends_on:
       - postgresql
       - registry

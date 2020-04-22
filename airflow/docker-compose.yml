@@ -1,37 +1,58 @@
 version: '3.7'
 
 services:
-  postgresql: 
-    image: bitnami/postgresql:10
+  postgresql:
+    image: 'bitnami/postgresql:10'
     volumes:
       - 'postgresql_data:/bitnami/postgresql'
-    env_file:
-      - .env
+    environment:
+      - POSTGRESQL_DATABASE=bitnami_airflow
+      - POSTGRESQL_USERNAME=bn_airflow
+      - POSTGRESQL_PASSWORD=${AIRFLOW_PASSWORD_1}
+      - ALLOW_EMPTY_PASSWORD=yes
+      
   redis:
     image: bitnami/redis:5.0
     volumes:
       - 'redis_data:/bitnami'
-    env_file:
-      - .env
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
   airflow-scheduler:
     image: bitnami/airflow-scheduler:1
+    environment:
+      - AIRFLOW_DATABASE_NAME=bitnami_airflow
+      - AIRFLOW_DATABASE_USERNAME=bn_airflow
+      - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_PASSWORD_1}
+      - AIRFLOW_EXECUTOR=CeleryExecutor
     volumes:
       - airflow_scheduler_data:/bitnami
-    env_file:
-      - .env
+  airflow-worker:
+    image: bitnami/airflow-worker:1
+    environment:
+      - AIRFLOW_DATABASE_NAME=bitnami_airflow
+      - AIRFLOW_DATABASE_USERNAME=bn_airflow
+      - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_PASSWORD_1}
+      - AIRFLOW_EXECUTOR=CeleryExecutor
+    volumes:
+      - airflow_worker_data:/bitnami
   airflow:
     image: bitnami/airflow:1
     networks:
       - nginx_default
       - default
+    environment:
+      - AIRFLOW_DATABASE_NAME=bitnami_airflow
+      - AIRFLOW_DATABASE_USERNAME=bn_airflow
+      - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_PASSWORD_1}
+      - AIRFLOW_EXECUTOR=CeleryExecutor
     volumes:
       - airflow_data:/bitnami
-      - '/home/platypus/Code/platformplatform/airflow/dag/:/opt/bitnami/airflow/dags'
-    env_file:
-      - .env
+      - '/home/platypus/Code/platformplatform/airflow/dags:/opt/bitnami/airflow/dags'
 
 volumes:
   airflow_scheduler_data:
+    driver: local
+  airflow_worker_data:
     driver: local
   airflow_data:
     driver: local

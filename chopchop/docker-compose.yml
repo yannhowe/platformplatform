@@ -11,11 +11,19 @@ services:
     restart: always
     environment: 
       - TX=TRUE
-    env_file:
-      - .env
+    environment:
+      - MINIO_HOST=http://minio_minio_1:9000
+      - MINIO_TX_IN_BUCKET_NAME=tx-in
+      - MINIO_TX_OUT_BUCKET_NAME=tx-out
+      - MINIO_RX_IN_BUCKET_NAME=rx-in
+      - MINIO_RX_OUT_BUCKET_NAME=rx-out
+      - MINIO_ACCESS_KEY=${MINIO_PASSWORD_1}
+      - MINIO_SECRET_KEY=${MINIO_PASSWORD_2}
+      - WAITFORIT_NO_BUSYTIMEFLAG=1
+      - CHUNKSIZE=500m
     volumes: 
       - mc_config:/root/.mc
-      - ${PWD}/chopchop/tmp:/app/tmp
+      - /home/platypus/Code/platformplatform/chopchop/tmp:/app/tmp
 
 volumes: 
   mc_config:

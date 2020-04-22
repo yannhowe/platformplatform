@@ -1,5 +1,7 @@
 apt-mirror/data/*
+pypi-mirror/data/*
 chopchop/data/*
+chopchop/tmp/*
 minio/data/tx*
 minio/data/rx*
 minio/data/.minio.sys
@@ -7,3 +9,5 @@ minio/data/gitlab-backups/*
 minio/data/gitlab-artifacts/*
 gitlab/backup/secrets/*
 gitlab/backup/data/*
+.env
+.pwgen

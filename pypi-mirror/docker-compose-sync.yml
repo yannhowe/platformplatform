@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    restart: always
+    image: 'docker.io/nginx:1.17'
+    networks:
+      - nginx_default
+      - default
+    restart: 'always'
+    volumes:
+      - '/home/platypus/Code/platformplatform/pypi-mirror/data/web/:/usr/share/nginx/html:ro'
+      - '/home/platypus/Code/platformplatform/pypi-mirror/config/nginx:/etc/nginx/conf.d'
+     
+  pypi-mirror:
+    image: 'yannhowe/pypi-mirror:latest'
+    volumes:
+      - '/home/platypus/Code/platformplatform/pypi-mirror/config/bandersnatch.conf:/etc/bandersnatch.conf'
+      - '/home/platypus/Code/platformplatform/pypi-mirror/data:/srv/pypi'
+
+networks:
+  nginx_default:
+    external: true

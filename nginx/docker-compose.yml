@@ -9,11 +9,11 @@ services:
       - "80:80"
     volumes:
       - type: bind
-        source: ${PWD}/nginx/sites-enabled #this is for docker-compose up from parent dir, remove /nginx from path to run from this directory
+        source: /home/platypus/Code/platformplatform/nginx/sites-enabled #this is for docker-compose up from parent dir, remove /nginx from path to run from this directory
         target: /etc/nginx/sites-enabled
       - type: bind
-        source: ${PWD}/nginx/conf/nginx.conf
+        source: /home/platypus/Code/platformplatform/nginx/conf/nginx.conf
         target: /etc/nginx/nginx.conf
       - type: bind
-        source: ${PWD}/nginx/www
+        source: /home/platypus/Code/platformplatform/nginx/www
         target: /var/www

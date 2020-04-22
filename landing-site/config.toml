@@ -1,5 +1,5 @@
 ############################ Default configuration #########################
-baseURL = "http://platform.net/"
+baseURL = "http://platform.net"
 languageCode = "en-us"
 # site title 
 title = "Platform.Net | Get Building!"
@@ -27,6 +27,8 @@ link = "plugins/themify-icons/themify-icons.css"
 [[params.plugins.js]]
 link = "plugins/jQuery/jquery.min.js"
 [[params.plugins.js]]
+link = "plugins/bootstrap/popper.min.js"
+[[params.plugins.js]]
 link = "plugins/bootstrap/bootstrap.min.js"
 [[params.plugins.js]]
 link = "plugins/search/fuse.min.js"
@@ -34,6 +36,8 @@ link = "plugins/search/fuse.min.js"
 link = "plugins/search/mark.js"
 [[params.plugins.js]]
 link = "plugins/search/search.js"
+[[params.plugins.js]]
+link = "plugins/bootstrap/tooltip.js"
 
 
 ########################### Navigation ###################################
