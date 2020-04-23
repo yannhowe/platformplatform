@@ -162,6 +162,13 @@ case "$1" in
                 done
             test_curl
             ;;
+        pull)
+            for i in "${services[@]}"
+                do
+                    :
+                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml pull
+                done
+            ;;
         clean)
             docker system prune -a
             ;;
