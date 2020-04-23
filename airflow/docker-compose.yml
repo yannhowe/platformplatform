@@ -41,6 +41,8 @@ services:
       - nginx_default
       - default
     environment:
+      - AIRFLOW_USERNAME=platypus
+      - AIRFLOW_PASSWORD=${AIRFLOW_PASSWORD_2}
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
       - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_PASSWORD_1}

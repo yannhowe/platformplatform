@@ -11,3 +11,4 @@ gitlab/backup/secrets/*
 gitlab/backup/data/*
 .env
 .pwgen
+gitlab.config
