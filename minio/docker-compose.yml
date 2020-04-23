@@ -12,12 +12,12 @@ services:
       - MINIO_ACCESS_KEY=${MINIO_PASSWORD_1}
       - MINIO_SECRET_KEY=${MINIO_PASSWORD_2}
     volumes:
-#      - minio_data:/data
-      - /home/platypus/Code/platformplatform/minio/data:/data
+      - minio_data:/data
+#      - /home/platypus/Code/platformplatform/minio/data:/data
+
+volumes:
+  minio_data:
 
 networks:
   nginx_default:
     external: true
-
-#volumes:
-#  minio_data:
