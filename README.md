@@ -12,4 +12,3 @@ There are a bunch of things in beta. This means you can docker-compose up them f
 
 ## Trendy GitOps
 `./gitops.sh` makes deployment check every 60 seconds for new commits in branch.
-try again
