@@ -179,6 +179,7 @@ case "$1" in
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down -v --remove-orphans
                 done
             docker volume rm gitlab_gitlab-config gitlab_gitlab-data gitlab_gitlab-logs
+	    docker volume rm minio_minio_data
             docker system prune -f
             for i in "${services[@]}"
                 do
@@ -213,9 +214,9 @@ case "$1" in
                         done
                 done
             # parse gitlab config in ./gitlab/docker-compose.yml comments into one liner and stuff in to env variable
-            echo -n "`cat gitlab/docker-compose.yml | grep '##' | sed 's/##\ \ \ \ //g' | grep -v '#' | sed "s/minio_aws_access_key_id/${MINIO_PASSWORD_1}/g" | sed "s/minio_aws_secret_access_key/${MINIO_PASSWORD_2}/g" |  sed ':a;N;$!ba;s/\n/\\n/g'`" > .env.tmp
+            echo -n "`cat gitlab/docker-compose.yml | grep '##' | sed 's/##\ \ \ \ //g' | grep -v '#' | sed "s/minio_aws_access_key_id/${MINIO_PASSWORD_1}/g" | sed "s/minio_aws_secret_access_key/${MINIO_PASSWORD_2}/g" |  sed ':a;N;$!ba;s/\n/\\n/g'`" > gitlab.config
             echo -n "export GITLAB_OMNIBUS_CONFIG_PWGEN=\"" >> .pwgen
-            cat .env.tmp | grep -v export |  sed ':a;N;$!ba;s/\n/\\n/g' | tr -d '\n' >>  .pwgen
+            cat gitlab.config | grep -v export |  sed ':a;N;$!ba;s/\n/\\n/g' | tr -d '\n' >>  .pwgen
             echo -n "\"" >> .pwgen
             source .pwgen
             echo "Run this command: '. ./platformplatform.sh pwgen' to have the env variables exported"

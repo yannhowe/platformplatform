@@ -15,12 +15,30 @@ services:
       - MINIO_HOST=http://minio_minio_1:9000
       - MINIO_TX_IN_BUCKET_NAME=tx-in
       - MINIO_TX_OUT_BUCKET_NAME=tx-out
+      - MINIO_ACCESS_KEY=${MINIO_PASSWORD_1}
+      - MINIO_SECRET_KEY=${MINIO_PASSWORD_2}
+      - WAITFORIT_NO_BUSYTIMEFLAG=1
+      - CHUNKSIZE=800m
+    volumes: 
+      - mc_config:/root/.mc
+      - /home/platypus/Code/platformplatform/chopchop/tmp:/app/tmp
+
+  joiner:
+    image: goal86sg/chopchop:latest 
+    networks:
+      - minio_default
+      - default
+    entrypoint: ["/app/wait-for-it.sh" , "minio_minio_1:9000" , "--strict" , "--timeout=300" , "--" , "bash" , "/app/script.sh"]
+    restart: always
+    environment: 
+      - RX=TRUE
+    environment:
+      - MINIO_HOST=http://minio_minio_1:9000
       - MINIO_RX_IN_BUCKET_NAME=rx-in
       - MINIO_RX_OUT_BUCKET_NAME=rx-out
       - MINIO_ACCESS_KEY=${MINIO_PASSWORD_1}
       - MINIO_SECRET_KEY=${MINIO_PASSWORD_2}
       - WAITFORIT_NO_BUSYTIMEFLAG=1
-      - CHUNKSIZE=500m
     volumes: 
       - mc_config:/root/.mc
       - /home/platypus/Code/platformplatform/chopchop/tmp:/app/tmp
