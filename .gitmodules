@@ -1,6 +1,6 @@
 [submodule "landing-site/themes/northendlab-hugo"]
 	path = landing-site/themes/northendlab-hugo
 	url = https://github.com/themefisher/northendlab-hugo.git
-[submodule "mattermost/mattermost-docker"]
-	path = mattermost/mattermost-docker
+[submodule "beta/mattermost/mattermost-docker"]
+	path = beta/mattermost/mattermost-docker
 	url = https://github.com/mattermost/mattermost-docker.git
