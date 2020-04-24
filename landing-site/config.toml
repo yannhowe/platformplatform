@@ -48,10 +48,10 @@ URL = "http://gitlab.platform.net"
 name = "GitLab"
 weight = 1
 
-[[menu.main]]
-URL = "http://mattermost.platform.net"
-name = "Mattermost"
-weight = 2
+#[[menu.main]]
+#URL = "http://mattermost.platform.net"
+#name = "Mattermost"
+#weight = 2
 
 [[menu.main]]
 URL = "tools"
@@ -69,10 +69,10 @@ URL = "http://gitlab.platform.net"
 name = "GitLab"
 weight = 1
 
-[[menu.footer]]
-URL = "http://mattermost.platform.net"
-name = "Mattermost"
-weight = 2
+#[[menu.footer]]
+#URL = "http://mattermost.platform.net"
+#name = "Mattermost"
+#weight = 2
 
 
 ######################### Default Parameters ###########################
