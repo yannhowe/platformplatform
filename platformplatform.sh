@@ -144,12 +144,13 @@ case "$1" in
 	            docker-compose -f /home/platypus/Code/platformplatform/pypi-mirror/docker-compose-sync.yml down --remove-orphans
             ;;
         restart)
+            echo "Stopping Services"
             for i in "${services[@]}"
                 do
                     :
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down --remove-orphans
                 done
-            rm -rf ./minio/data/.minio.sys
+            echo "Starting Services"
             for i in "${services[@]}"
                 do
                     :
