@@ -11,12 +11,12 @@ services:
     environment:
       - MINIO_ACCESS_KEY=${MINIO_PASSWORD_1}
       - MINIO_SECRET_KEY=${MINIO_PASSWORD_2}
+      - MINIO_DEFAULT_BUCKETS=gitlab-artifacts,gitlab-backups,rx-in,rx-out,tx-in,tx-out
     volumes:
-      - minio_data:/data
-#      - /home/platypus/Code/platformplatform/minio/data:/data
+      - /home/platypus/Code/platformplatform/minio/data:/data
 
-volumes:
-  minio_data:
+#volumes:
+#  minio_data:
 
 networks:
   nginx_default:

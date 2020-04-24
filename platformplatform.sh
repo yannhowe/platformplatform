@@ -1,6 +1,6 @@
 #!/bin/bash
 
-services=( gitlab airflow harbor nginx minio apt-mirror pypi-mirror chopchop landing-site )
+services=( nginx gitlab airflow harbor minio apt-mirror pypi-mirror chopchop landing-site )
 
 test_curl () {
     echo "HTTP Status Codes:"
@@ -59,11 +59,10 @@ register_gitlab_runners () {
 case "$1" in
         init)
             # Enable incremental logs for object storage https://docs.gitlab.com/ee/administration/job_logs.html#enabling-incremental-logging
-            echo -n "Setting Feature.enable('ci_enable_live_trace') to "
-            docker exec -it gitlab_gitlab_1 gitlab-rails runner "puts Feature.enable('ci_enable_live_trace')"
-            register_gitlab_runners
+#            echo -n "Setting Feature.enable('ci_enable_live_trace') to "
+#            docker exec -it gitlab_gitlab_1 gitlab-rails runner "puts Feature.enable('ci_enable_live_trace')"
+#            register_gitlab_runners
             mc config host add minio_host http://minio.platform.net ${MINIO_PASSWORD_1} ${MINIO_PASSWORD_2} --api S3v4
-            mc mb minio_host/gitlab-backups 
             ;;
             # https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html
         backup)
@@ -149,11 +148,33 @@ case "$1" in
                 do
                     :
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down --remove-orphans
+                done
+            rm -rf ./minio/data/.minio.sys
+            for i in "${services[@]}"
+                do
+                    :
                     docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
                 done
             register_gitlab_runners
             test_curl
             ;;
+        redeploy)
+            for i in "${services[@]}"
+                do
+                    :
+                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down -v --remove-orphans
+                done
+            docker volume rm gitlab_gitlab-config gitlab_gitlab-data gitlab_gitlab-logs
+            docker system prune -f
+            rm -rf ./minio/data/.minio.sys
+            for i in "${services[@]}"
+                do
+                    :
+                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
+                done
+            register_gitlab_runners
+            test_curl
+            ;;        
         ps)
             for i in "${services[@]}"
                 do
@@ -172,23 +193,6 @@ case "$1" in
         clean)
             docker system prune -a
             ;;
-        redeploy)
-            for i in "${services[@]}"
-                do
-                    :
-                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml down -v --remove-orphans
-                done
-            docker volume rm gitlab_gitlab-config gitlab_gitlab-data gitlab_gitlab-logs
-	    docker volume rm minio_minio_data
-            docker system prune -f
-            for i in "${services[@]}"
-                do
-                    :
-                    docker-compose -f /home/platypus/Code/platformplatform/$i/docker-compose.yml up -d
-                done
-            register_gitlab_runners
-            test_curl
-            ;;        
         nuke)
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
@@ -200,6 +204,14 @@ case "$1" in
             test_curl
             ;;
         pwgen) # Generate a password file
+            FILE=./.pwgen
+            if test -f "$FILE"; then
+                echo "$FILE exists"
+                echo "Run '. ./platformplatform.sh pwgen' to export to env, delete $FILE to regenerate"
+                source .pwgen
+                return
+            fi
+            echo "Generating new credentials"
             echo -n "" > .pwgen
             for service in "${services[@]}"
                 do
