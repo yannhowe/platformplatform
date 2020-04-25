@@ -1,22 +1,19 @@
 #!/bin/sh
+cd "$(dirname "$0")"
 
 if [ ! -d .git ]; then
     echo "Error: Current directory (`pwd`) is not a git repository!"
     exit 2
 fi
 
-while true
-do
-    git fetch
-    LOCAL=$(git rev-parse HEAD)
-    REMOTE=$(git rev-parse @{u})
+echo "`date --iso-8601` gitops platformplatform"
 
-    if [ $LOCAL != $REMOTE ]; then
-        git pull origin $(git rev-parse --abbrev-ref HEAD)
+git fetch
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse @{u})
 
-        ./platformplatform.sh pull
-        ./platformplatform.sh restart
-    fi
-
-    sleep 60
-done
+if [ $LOCAL != $REMOTE ]; then
+    git pull origin $(git rev-parse --abbrev-ref HEAD)
+    ./platformplatform.sh pull
+    ./platformplatform.sh restart
+fi
