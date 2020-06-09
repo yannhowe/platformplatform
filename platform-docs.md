@@ -136,7 +136,7 @@ sudo touch /etc/pip.conf
 sudo tee -a /etc/pip.conf > /dev/null <<EOT
 [global]
 index-url = http://pypi-mirror.platform.net/simple
-trusted-host = pypi-mirror.platform.nnet
+trusted-host = pypi-mirror.platform.net
 EOT
 ```
 
