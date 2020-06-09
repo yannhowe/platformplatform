@@ -128,6 +128,18 @@ sudo apt update
 sudo apt install cifs-utils nfs-common unzip -y
 ```
 
+## Change to local pypi repo
+```
+sudo echo # This prevents sudo from asking you for a password later
+sudo touch /etc/pip.conf
+
+sudo tee -a /etc/pip.conf > /dev/null <<EOT
+[global]
+index-url = http://pypi-mirror.platform.net
+trusted-host = pypi-mirror.platform.nnet
+EOT
+```
+
 # Configure nameservers & hostsfile
 ```
 sudo echo # This prevents sudo from asking you for a password later
